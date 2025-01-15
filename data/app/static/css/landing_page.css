@@ -43,28 +43,23 @@ body {
 
     padding: 2em;
 
-    background-color: var(--periwinkle);
     text-decoration: underline;
     border-radius: var(--button-border-radius);
     transition: none;
 }
 
-@keyframes top-bar-button-anim {
-    from { background-color: var(--periwinkle); }
-    to { background-color: var(--platinum); }
-}
-
 #top-bar > a:focus {
-    background-color: var(--platinum);
+    background-color: white;
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
 }
 
 #top-bar > a:hover {
-    background-color: var(--platinum);
+    background-color: white;
     box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
     transition: all 400ms linear 0ms;
 }
 
 #top-bar > a:not(:hover) {
-    background-color: var(--periwinkle);
+    background-color: var(--platinum);
     transition: all 400ms linear 0ms;
 }

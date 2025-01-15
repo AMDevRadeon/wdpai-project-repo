@@ -1,0 +1,99 @@
+@import "normalize.css";
+@import "universal.css";
+
+body {
+    width: 100vw;
+    height: 100vh;
+
+    background-color: var(--periwinkle);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    font-family: "Fjord One", serif;
+    font-weight: 400;
+    font-style: normal;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 30px;
+    border-radius: calc(var(--button-border-radius) * 2);
+    background-color: var(--pomp-and-power);
+}
+
+form > input {
+    width: 300px;
+    padding: 0.3em;
+
+    border-radius: var(--button-border-radius);
+    background-color: var(--platinum);
+}
+
+form > label {
+    margin-bottom: 1em;
+    align-self: baseline;
+}
+
+form > input:not(:last-of-type) {
+    margin-bottom: 2em;
+}
+
+form > input:last-of-type {
+    font-size: large;
+    width: 200px;
+    padding: 1em;
+    border-radius: var(--button-border-radius);
+}
+
+a {
+    text-decoration: underline;
+}
+
+a:hover {
+    color: lightblue;
+}
+
+form > a {
+    font-size: small;
+    margin-top: 2em;
+}
+
+
+form > input:focus {
+    background-color: white;
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
+}
+
+form > input:hover {
+    background-color: white;
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
+    transition: box-shadow 400ms linear 0ms;
+}
+
+form > input:not(:hover) {
+    transition: box-shadow 400ms linear 0ms;
+}
+
+div#errors {
+    position: absolute;
+
+    top: 100%;
+
+    width: 100%;
+    height: min-content;
+    padding-top: 20px;
+}
+
+div#errors > .error_mesg {
+    padding: 20px;
+    background-color: var(--platinum);
+    border-radius: calc(var(--button-border-radius) * 2);
+}

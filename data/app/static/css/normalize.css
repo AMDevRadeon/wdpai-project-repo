@@ -94,7 +94,6 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    width: 100%;
     &:focus {
         outline: 0;
     }
