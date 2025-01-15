@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjord+One&display=swap');
+
+.fjord-one-regular {
+    font-family: "Fjord One", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.disable-preload * {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
+:root {
+    /* CSS HSL */
+    --platinum: hsla(0, 0%, 92%, 1);
+    --periwinkle: hsla(250, 47%, 85%, 1);
+    --pomp-and-power: hsla(266, 17%, 46%, 1);
+    --delft-blue: hsla(222, 29%, 27%, 1);
+    --gunmetal: hsla(197, 47%, 18%, 1);
+}
+
+:root {
+    --button-border-radius: 5px;
+}

@@ -1,0 +1,46 @@
+services:
+  nginx-wdpai:
+    build:
+      context: ./../
+      dockerfile: ./docker/nginx/Dockerfile
+    container_name: nginx-wdpai
+    ports:
+      - "8080:80"
+    networks:
+      - internal
+    volumes:
+      - ./../data/app:/var/www/html/
+      - ./../logs/nginx:/var/log/nginx
+    links:
+      - php-wdpai
+    depends_on:
+      - php-wdpai
+
+  php-wdpai:
+    build:
+      context: ./../
+      dockerfile: ./docker/php/Dockerfile
+    container_name: php-wdpai
+    networks:
+      - internal
+    volumes:
+      - ./../data/app:/var/www/html/
+      - ./../logs/php:/var/log/
+    links:
+      - postgresql-wdpai
+    depends_on:
+      - postgresql-wdpai
+
+  postgresql-wdpai:
+    build:
+      context: ./../
+      dockerfile: ./docker/postgresql/Dockerfile
+    container_name: postgresql-wdpai
+    networks:
+      - internal
+    volumes:
+      - ./../data/database:/data/db
+
+networks:
+  internal:
+    driver: bridge

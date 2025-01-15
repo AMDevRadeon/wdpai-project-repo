@@ -1,0 +1,70 @@
+@import "normalize.css";
+@import "universal.css";
+
+body {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-flow: column;
+}
+
+#top-bar {
+    width: 100%;
+    height: fit-content;
+    padding: 10px 20px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+
+    background-color: var(--delft-blue);
+}
+
+#page {
+    width: 100%;
+    height: auto;
+
+    flex-grow: 1;
+
+    background-color: var(--periwinkle);
+}
+
+#top-bar > a:first-child {
+    margin-right: 40px;
+}
+
+#top-bar > a {
+    font-family: "Fjord One", serif;
+    font-weight: 400;
+    font-style: normal;
+
+    padding: 2em;
+
+    background-color: var(--periwinkle);
+    text-decoration: underline;
+    border-radius: var(--button-border-radius);
+    transition: none;
+}
+
+@keyframes top-bar-button-anim {
+    from { background-color: var(--periwinkle); }
+    to { background-color: var(--platinum); }
+}
+
+#top-bar > a:focus {
+    background-color: var(--platinum);
+}
+
+#top-bar > a:hover {
+    background-color: var(--platinum);
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
+    transition: all 400ms linear 0ms;
+}
+
+#top-bar > a:not(:hover) {
+    background-color: var(--periwinkle);
+    transition: all 400ms linear 0ms;
+}
