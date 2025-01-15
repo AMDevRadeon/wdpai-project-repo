@@ -14,13 +14,24 @@ class Routes
     {
         if (!array_key_exists(rtrim($uri, "/"), self::$routes_map)) {
             http_response_code(404);
-            require __DIR__ . self::$content_path . "404.php";
+            ob_start();
+            include __DIR__ . self::$content_path . "404.php";
+            print ob_get_clean();
+            exit();
         }
         else {
             http_response_code(200);
             ob_start();
-            require __DIR__ . self::$content_path . self::$routes_map[rtrim($uri, "/")] . ".php";
+            include __DIR__ . self::$content_path . self::$routes_map[rtrim($uri, "/")] . ".php";
             print ob_get_clean();
+            exit();
         }
+    }
+
+    public static function redirect_to($uri)
+    {
+        $root = 'http://' . $_SERVER['HTTP_HOST'];
+        header('Location: ' . $root . $uri);
+        exit();
     }
 }
