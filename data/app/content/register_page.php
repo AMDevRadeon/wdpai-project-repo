@@ -22,7 +22,7 @@ $register_handle = new RegisterManager();
         <input type="text" name="input-name" id="input-name">
         <label for="input-password">Your password:</label>
         <input type="password" name="input-password" id="input-password">
-        <input type="submit" value="Register now">
+        <input type="submit" name="submit" value="Register now">
         <a href="login">Already got one? Try logging in!</a>
         <div id=errors>
             <?php

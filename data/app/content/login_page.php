@@ -20,7 +20,7 @@ $login_handle = new LoginManager();
         <input type="email" name="input-email" id="input-email">
         <label for="input-password">Your password:</label>
         <input type="password" name="input-password" id="input-password">
-        <input type="submit" value="Login">
+        <input type="submit" name="submit" value="Login">
         <a href="register">Haven't got yourself an account? Register here</a>
         <div id=errors>
             <?php
