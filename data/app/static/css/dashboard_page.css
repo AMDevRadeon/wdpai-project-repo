@@ -1,0 +1,87 @@
+@import "normalize.css";
+@import "universal.css";
+
+body {
+    width: 100vw;
+    height: 100vh;
+
+    background-color: var(--periwinkle);
+
+    display: grid;
+    grid-template-columns: 100px auto;
+}
+
+div#menubar-left {
+    position: relative;
+    background-color: var(--gunmetal);
+}
+
+div#menubar-left > #logout {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 80px;
+    margin: 10px;
+    background-color: rgb(50, 75, 87);
+    border-radius: var(--button-border-radius);
+}
+
+div#main {
+    display: grid;
+    grid-template-columns: 20% auto;
+}
+
+div#main-left {
+    display: grid;
+    grid-template-rows: auto 100px;
+    border-right: 5px solid var(--gunmetal);
+}
+
+div#contacts-list {
+    background-color: var(--platinum);
+}
+
+div#user-info {
+    background-color: var(--gunmetal);
+}
+
+div#main-right {
+    display: flex;
+    flex-direction: column;
+}
+
+div#message-place {
+    flex-grow: 1;
+    background-color: var(--platinum);
+}
+
+form#message-form {
+    min-height: 100px;
+    background-color: var(--delft-blue);
+
+    padding: 10px;
+
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 10px;
+}
+
+form#message-form > #message-button {
+    width: 80px;
+    border-radius: var(--button-border-radius);
+}
+
+form#message-form > #message-input {
+    height: fit-content;
+
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+
+    align-self: center;
+    flex-grow: 1;
+    border-radius: var(--button-border-radius);
+    padding: 15px 10px;
+    font-size: larger;
+}

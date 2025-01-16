@@ -94,12 +94,12 @@ class LoginManager {
         $this->is_valid_data = true;
         $this->errors = '';
     }
-    
+
     public function __invoke()
     {
-        // if (isset($_SESSION['user-name']) && isset($_SESSION['user-email'])) {
-        //     Routes::redirect_to('/dashboard');
-        // }
+        if (isset($_SESSION['user-name']) && isset($_SESSION['user-email'])) {
+            Routes::redirect_to('/dashboard');
+        }
 
         if (isset($_POST['submit'])) {
             if (isset($_SESSION['has_created_account_successfully']) && $_SESSION['has_created_account_successfully'] === true) {

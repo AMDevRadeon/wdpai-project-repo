@@ -9,6 +9,8 @@ Routes::$routes_map = array();
 Routes::set_route("", "landing_page");
 Routes::set_route("/register", "register_page");
 Routes::set_route("/login", "login_page");
+Routes::set_route("/dashboard", "dashboard_page");
+Routes::set_route("/logout", "managers/logout_manager");
 
 Routes::route_to($request);
 
