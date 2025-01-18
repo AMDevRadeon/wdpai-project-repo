@@ -30,6 +30,10 @@ RUN apk add --no-cache --virtual .build-deps $BUILD_DEPS \
 
 RUN apk add --no-cache --virtual .run-deps $RUN_DEPS
 
+# Multi stage build
+#COPY --from=composer:latest /composer /usr/local/composer
+#RUN composer self-update
+
 COPY ./docker/php/phpSettings.conf /usr/local/etc/php-fpm.d/zzz-phpSettings.conf
 COPY ./docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 # COPY ./data/app/ /var/www/html/

@@ -1,0 +1,1 @@
+psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB"

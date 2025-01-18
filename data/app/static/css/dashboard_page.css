@@ -52,8 +52,47 @@ div#main-right {
 }
 
 div#message-place {
+    display: flex;
+    flex-direction: column-reverse;
+
+    padding: 0px 10px 20px;
+
     flex-grow: 1;
     background-color: var(--platinum);
+}
+
+div#message-place > .message-self,
+div#message-place > .message-other {
+    padding: 10px;
+    border-radius: 15px 15px 15px 0;
+}
+
+div#message-place .sender-name {
+    display: block;
+    width: fit-content;
+    padding-right: 0.6em;
+}
+
+div#message-place .sender-time {
+    display: block;
+    width: fit-content;
+}
+
+div#message-place .sender-timename {
+    font-size: small;
+
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5em;
+}
+
+div#message-place > .message-self {
+    align-self: flex-start;
+    background-color: var(--periwinkle);
+}
+
+div#message-place > .message-other {
+    align-self: flex-end;
 }
 
 form#message-form {
@@ -74,6 +113,7 @@ form#message-form > #message-button {
 
 form#message-form > #message-input {
     height: fit-content;
+    resize: none;
 
     overflow-wrap: anywhere;
     white-space: pre-wrap;

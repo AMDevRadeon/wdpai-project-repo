@@ -20,7 +20,7 @@ class RegisterManager {
         if (isset($_POST['submit'])) {
             $this->db_manager = new UserManager();
 
-            $POST_user_data = new User($_POST['input-email'], $_POST['input-name'], $_POST['input-password']);
+            $POST_user_data = new User(-1, $_POST['input-email'], $_POST['input-name'], $_POST['input-password']);
             // var_dump($POST_user_data);
 
             if ($POST_user_data->getName() == ''){
@@ -68,7 +68,7 @@ class RegisterManager {
 
             $passhash = hash_hmac("sha256", $POST_user_data->getPasshash(), PASS_PEPPER);
             $passhash_prepared = password_hash($passhash, PASSWORD_ARGON2ID);
-            $this->is_valid_data = $this->db_manager->pushUser(new User($POST_user_data->getEmail(), $POST_user_data->getName(), $passhash_prepared));
+            $this->is_valid_data = $this->db_manager->pushUser(new User(-1, $POST_user_data->getEmail(), $POST_user_data->getName(), $passhash_prepared));
 
             if (!$this->is_valid_data) {
                 $this->errors = '
@@ -101,17 +101,17 @@ class LoginManager {
             Routes::redirect_to('/dashboard');
         }
 
+        if (isset($_SESSION['has_created_account_successfully']) && $_SESSION['has_created_account_successfully'] === true) {
+            $this->errors = '
+            <div class="error_mesg">Account successfully created, try logging in</div>';
+            unset($_SESSION['has_created_account_successfully']);
+            return $this->errors;
+        }
+        
         if (isset($_POST['submit'])) {
-            if (isset($_SESSION['has_created_account_successfully']) && $_SESSION['has_created_account_successfully'] === true) {
-                $this->errors = '
-                <div class="error_mesg">Account successfully created, try logging in</div>';
-                unset($_SESSION['has_created_account_successfully']);
-                return $this->errors;
-            }
-
             $this->db_manager = new UserManager();
 
-            $POST_user_data = new User($_POST['input-email'], NULL, $_POST['input-password']);
+            $POST_user_data = new User(-1, $_POST['input-email'], NULL, $_POST['input-password']);
 
             if ($POST_user_data->getPasshash() == ''){
                 $this->is_valid_data = false;
@@ -144,6 +144,7 @@ class LoginManager {
                 //Login successful
                 $_SESSION['user-email'] = $check_database->getEmail();
                 $_SESSION['user-name'] = $check_database->getName();
+                $_SESSION['user-dbid'] = $check_database->getId();
                 Routes::redirect_to('/dashboard');
             }
             else {

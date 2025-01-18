@@ -1,0 +1,5 @@
+{
+    "require": {
+        "cboden/rachet": "0.4.*"
+    }
+}

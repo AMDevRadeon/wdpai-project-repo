@@ -11,6 +11,7 @@ Routes::set_route("/register", "register_page");
 Routes::set_route("/login", "login_page");
 Routes::set_route("/dashboard", "dashboard_page");
 Routes::set_route("/logout", "managers/logout_manager");
+Routes::set_route("/fetch_messages", "endpoints/fetch_messages_target");
 
 Routes::route_to($request);
 

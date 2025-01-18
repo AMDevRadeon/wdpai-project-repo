@@ -16,6 +16,10 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/dashboard_page.css">
+    <script>
+        let self_name = "<?php echo $_SESSION['user-name'];?>";
+        let self_email = "<?php echo $_SESSION['user-email'];?>";
+    </script>
     <script defer type="text/javascript" src="static/js/dashboard.js"></script>
     <title>WeChat - <?php echo $_SESSION['user-name']?></title>
 </head>
@@ -26,14 +30,13 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
     <div id="main">
         <div id="main-left">
             <div id="contacts-list"></div>
-            <div id="user-info"></div>
+            <div id="user-info">
+                <p><?php echo $_SESSION['user-name']?></p>
+                <p><?php echo $_SESSION['user-email']?></p>
+            </div>
         </div>
         <div id="main-right">
-            <div id="message-place">
-                <?php print('http://' . $_SERVER['HTTP_HOST']);
-                      var_dump($_SESSION);
-                ?>
-            </div>
+            <div id="message-place"></div>
             <form action="" method="post" id="message-form">
                 <textarea name="input-message" id="message-input"></textarea>
                 <input type="submit" value="Send" id="message-button">

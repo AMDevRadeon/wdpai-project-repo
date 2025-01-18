@@ -10,7 +10,7 @@ services:
       - internal
     volumes:
       - ./../data/app:/var/www/html/
-      - ./../logs/nginx:/var/log/nginx
+      - ./../logs/nginx:/var/log/nginx/
     links:
       - php-wdpai
     depends_on:
@@ -39,7 +39,7 @@ services:
     networks:
       - internal
     volumes:
-      - ./../data/database:/data/db
+      - ./../data/database:/var/lib/postgresql/data
 
 networks:
   internal:
