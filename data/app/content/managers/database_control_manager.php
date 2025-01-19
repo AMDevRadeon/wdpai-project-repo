@@ -7,7 +7,7 @@ class UserManager
 {
     protected $database;
     const GETUSERBYVALUE_QUERY = 'SELECT id, name, email, passhash FROM user_data WHERE %s = :value';
-    const PUSHUSER_QUERY = 'INSERT INTO user_data(name, email, passhash) VALUES (NULL, :name, :email, :passhash)';
+    const PUSHUSER_QUERY = 'INSERT INTO user_data(name, email, passhash) VALUES (:name, :email, :passhash)';
     
     public function __construct()
     {
@@ -45,18 +45,18 @@ class MessageManager
 {
     protected $database;
     const GETMESSAGESGLOBALCHAT_ALL_QUERY = <<<QUERY
-        SELECT user_data.name, global_chat.sent_date, global_chat.sent_time, global_chat.message FROM global_chat
+        SELECT user_data.name, global_chat.sent_date, global_chat.message FROM global_chat
         LEFT OUTER JOIN user_data ON global_chat.user_id = user_data.id
         QUERY;
 
     const GETMESSAGESGLOBALCHAT_FROM_TIMESTAMP_QUERY = <<<QUERY
-        SELECT user_data.name, global_chat.sent_date, global_chat.sent_time, global_chat.message FROM global_chat
+        SELECT user_data.name, global_chat.sent_date, global_chat.message FROM global_chat
         LEFT OUTER JOIN user_data ON global_chat.user_id = user_data.id
-        WHERE global_chat.sent_date + global_chat.sent_time >= :timestamp::date
+        WHERE global_chat.sent_date > :timestamp::timestamp
         QUERY;
     
     const SENDMESSAGEGLOBALCHAT_QUERY = <<<QUERY
-        INSERT INTO global_chat VALUES (NULL, :date, :time, :id, :message)
+        INSERT INTO global_chat(sent_date, user_id, message) VALUES (:date, :id, :message)
         QUERY;
     
     public function __construct()
@@ -80,11 +80,10 @@ class MessageManager
         return ['status' => $status, 'messages' => $query->fetchAll()];
     }
 
-    public function sendGlobalChatroomMessages($date_sent, $time_sent, $id, $message)
+    public function sendGlobalChatroomMessages($date_sent, $id, $message)
     {
-        $query = ($this->database)()->prepare(self::SENDMESSAGESGLOBALCHAT_QUERY);
-        $query->bindParam(':date', ($date_sent === NULL) ? date('Y-m-d') : $date_sent, PDO::PARAM_STR);
-        $query->bindParam(':time', ($time_sent === NULL) ? date('H:i:sP') : $time_sent, PDO::PARAM_STR);
+        $query = ($this->database)()->prepare(self::SENDMESSAGEGLOBALCHAT_QUERY);
+        $query->bindParam(':date', $date_sent, PDO::PARAM_STR);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->bindParam(':message', $message, PDO::PARAM_STR);
         

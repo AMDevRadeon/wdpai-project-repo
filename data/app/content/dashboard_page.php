@@ -31,16 +31,18 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
         <div id="main-left">
             <div id="contacts-list"></div>
             <div id="user-info">
-                <p><?php echo $_SESSION['user-name']?></p>
-                <p><?php echo $_SESSION['user-email']?></p>
+                <div id="user-info-container">
+                    <p><?php echo $_SESSION['user-name']?></p>
+                    <p><?php echo $_SESSION['user-email']?></p>
+                </div>
             </div>
         </div>
         <div id="main-right">
             <div id="message-place"></div>
-            <form action="" method="post" id="message-form">
+            <div id="message-form">
                 <textarea name="input-message" id="message-input"></textarea>
-                <input type="submit" value="Send" id="message-button">
-            </form>
+                <button id="message-button">Send</button>
+            </div>
         </div>
     </div>
 </body>
