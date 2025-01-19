@@ -29,7 +29,7 @@ div#menubar-left > #logout {
 
 div#main {
     display: grid;
-    grid-template-columns: 20% auto;
+    grid-template-columns: 15% auto;
 }
 
 div#main-left {
@@ -39,10 +39,14 @@ div#main-left {
 }
 
 div#contacts-list {
-    background-color: var(--platinum);
+    background-color: rgb(209, 218, 221);
+    overflow-y: scroll;
 }
 
 div#user-info {
+    color: var(--platinum);
+    font-weight: 500;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,6 +105,7 @@ div#message-place .sender-name {
 }
 
 div#message-place .sender-time {
+    font-weight: 400;
     display: block;
     width: fit-content;
 }
@@ -169,3 +174,36 @@ div#message-form > #message-input {
     padding: 15px 10px;
     font-size: larger;
 }
+
+
+#contacts-list > .contacts-list-contact {
+    border-bottom: 3px solid black;
+    padding: 20px;
+    cursor: pointer;
+
+    position: relative;
+}
+
+#contacts-list > .contacts-list-contact:hover {
+    background-color: rgb(225, 229, 231);
+}
+
+#contacts-list > .contacts-list-contact-enabled {
+    background-color: rgb(225, 229, 231);
+}
+
+#contacts-list > .contacts-list-contact-enabled::before {
+    content: "";
+    position: absolute;
+
+    top: 10px;
+    bottom: 10px;
+    right: 10px;
+
+    border-radius: var(--button-border-radius);
+
+    width: 10px;
+    background-color: var(--gunmetal);
+}
+
+

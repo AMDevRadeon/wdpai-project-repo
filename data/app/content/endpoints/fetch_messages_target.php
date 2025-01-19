@@ -13,10 +13,19 @@ if ($content_type === "application/json") {
     if (is_array($decoded)) {
         if (isset($_SESSION['user-name']) && isset($_SESSION['user-email'])) {
             $message_manager = new MessageManager();
-            $from_when = $decoded["time"];
-            $data = $message_manager->fetchGlobalChatroomMessages($from_when);
-            $encoded = json_encode($data);
-            print $encoded;
+
+            if ($decoded['request'] === "global") {
+                $from_when = $decoded["time"];
+                $data = $message_manager->fetchGlobalChatroomMessages($from_when);
+                $encoded = json_encode($data);
+                print $encoded;
+            }
+            else if ($decoded['request'] === "private") {
+                $from_when = $decoded["time"];
+                $data = $message_manager->fetchPrivateChatroomMessages($decoded['room_id'], $from_when);
+                $encoded = json_encode($data);
+                print $encoded;
+            }
         }
         else {
             print json_encode(['status' => 0, 'messages' => "No credentials"]);

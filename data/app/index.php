@@ -13,6 +13,7 @@ Routes::set_route("/dashboard", "dashboard_page");
 Routes::set_route("/logout", "managers/logout_manager");
 Routes::set_route("/fetch_messages", "endpoints/fetch_messages_target");
 Routes::set_route("/send_messages", "endpoints/send_messages_target");
+Routes::set_route("/chatrooms", "endpoints/chatroom_target");
 
 
 Routes::route_to($request);

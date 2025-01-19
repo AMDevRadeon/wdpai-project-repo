@@ -7,6 +7,13 @@ class UserManager
 {
     protected $database;
     const GETUSERBYVALUE_QUERY = 'SELECT id, name, email, passhash FROM user_data WHERE %s = :value';
+
+    const GETUSERBYAVLUEWITHADMINCRED_QUERY = <<<QUERY
+        SELECT user_data.id, name, email, passhash, is_admin FROM user_data
+        JOIN user_admin ON user_admin.id = user_data.id
+        WHERE %s = :value
+    QUERY;
+
     const PUSHUSER_QUERY = 'INSERT INTO user_data(name, email, passhash) VALUES (:name, :email, :passhash)';
     
     public function __construct()
@@ -19,7 +26,24 @@ class UserManager
         $query = ($this->database)()->prepare(sprintf(self::GETUSERBYVALUE_QUERY, $type));
         $query->bindParam(':value', $value, PDO::PARAM_STR);
         $query->execute();
-        $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'User', array(NULL, NULL, NULL, NULL));
+        $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'User', array(NULL, NULL, NULL, NULL, NULL));
+
+        $user = $query->fetch();
+
+        if (!$user) {
+            return null;
+        }
+        else {
+            return $user;
+        } 
+    }
+
+    public function getUserByValueWithAdmin(string $type, string $value)
+    {
+        $query = ($this->database)()->prepare(sprintf(self::GETUSERBYAVLUEWITHADMINCRED_QUERY, $type));
+        $query->bindParam(':value', $value, PDO::PARAM_STR);
+        $query->execute();
+        $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'User', array(NULL, NULL, NULL, NULL, NULL));
 
         $user = $query->fetch();
 
@@ -58,6 +82,19 @@ class MessageManager
     const SENDMESSAGEGLOBALCHAT_QUERY = <<<QUERY
         INSERT INTO global_chat(sent_date, user_id, message) VALUES (:date, :id, :message)
         QUERY;
+
+
+    const GETMESSAGESPRIVATECHAT_ALL_QUERY = <<<QUERY
+        SELECT user_data.name, private_chat.sent_date, private_chat.message FROM private_chat
+        LEFT OUTER JOIN user_data ON private_chat.user_id = user_data.id
+        WHERE private_chat.conversation_id = :conv_id
+        QUERY;
+
+    const GETMESSAGESPRIVATECHAT_FROM_TIMESTAMP_QUERY = <<<QUERY
+        SELECT user_data.name, private_chat.sent_date, private_chat.message FROM private_chat
+        LEFT OUTER JOIN user_data ON private_chat.user_id = user_data.id
+        WHERE (private_chat.conversation_id = :conv_id AND private_chat.sent_date > :timestamp::timestamp)
+        QUERY;
     
     public function __construct()
     {
@@ -89,4 +126,86 @@ class MessageManager
         
         return $query->execute();
     }
+
+    public function fetchPrivateChatroomMessages($id_chat, $from_timestamp)
+    {
+        $query = NULL;
+
+        // CHECK ID CHAT
+
+        if ($from_timestamp === NULL) {
+            $query = ($this->database)()->prepare(self::GETMESSAGESPRIVATECHAT_ALL_QUERY);
+            $query->bindParam(':conv_id', $id_chat, PDO::PARAM_INT);        
+        }
+        else {
+            $query = ($this->database)()->prepare(self::GETMESSAGESPRIVATECHAT_FROM_TIMESTAMP_QUERY);
+            $query->bindParam(':conv_id', $id_chat, PDO::PARAM_INT);
+            $query->bindParam(':timestamp', $from_timestamp, PDO::PARAM_STR);    
+        }
+        $status = $query->execute();
+
+        return ['status' => $status, 'messages' => $query->fetchAll()];
+    }
+}
+
+
+class ChatroomManager
+{
+    protected $database;
+
+    const GETCHATROOMS_PRIVATE_QUERY = <<<QUERY
+    SELECT chat_connections.id, user_data.name FROM chat_connections
+    JOIN (
+        SELECT * FROM private_chat_connection
+        WHERE private_chat_connection.conversation_id IN (
+            SELECT private_chat_connection.conversation_id FROM private_chat_connection 
+            WHERE private_chat_connection.user_id = :value)) private_convos
+    ON chat_connections.id = private_convos.conversation_id
+    JOIN user_data ON private_convos.user_id = user_data.id
+    WHERE chat_connections.is_deleted = false
+    QUERY;
+
+    public function __construct()
+    {
+        $this->database = new DatabaseManager();
+    }
+
+    public function fetchPrivateChatrooms($id)
+    {
+        $query = ($this->database)()->prepare(self::GETCHATROOMS_PRIVATE_QUERY);
+        $query->bindParam(':value', $id, PDO::PARAM_INT);    
+        $status = $query->execute();
+
+        return ['status' => $status, 'messages' => $query->fetchAll()];
+    }
+}
+
+
+
+
+class AdminMessageManager
+{
+    protected $database;
+
+    const GETCHATROOMS_ALL_QUERY = <<<QUERY
+        SELECT chat_connections.id, user_data.name FROM chat_connections
+        JOIN private_chat_connection ON chat_connections.id = private_chat_connection.conversation_id
+        JOIN user_data ON private_chat_connection.user_id = user_data.id
+        WHERE chat_connections.is_deleted = false
+        QUERY;
+    
+    public function __construct()
+    {
+        $this->database = new DatabaseManager();
+    }
+
+    public function fetchChatrooms()
+    {
+        $query = ($this->database)()->prepare(self::GETCHATROOMS_ALL_QUERY);        
+
+        $status = $query->execute();
+
+        return ['status' => $status, 'chatrooms' => $query->fetchAll()];
+    }
+
 }

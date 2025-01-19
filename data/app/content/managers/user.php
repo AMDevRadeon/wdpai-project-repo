@@ -5,13 +5,15 @@ class User {
     private $name;
     private $email;
     private $passhash;
+    private $is_admin;
 
-    public function __construct($id, $email, $name, $passhash)
+    public function __construct($id, $email, $name, $passhash, $is_admin)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->passhash = $passhash;
+        $this->is_admin = $is_admin;
     }
 
     public function getId()
@@ -32,5 +34,10 @@ class User {
     public function getPasshash()
     {
         return $this->passhash;
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
     }
 }

@@ -48,6 +48,8 @@ function getActualMessages(self_name, from_time) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ 
+            request: from_time.request,
+            room_id: from_time.room,
             time: from_time.time
         })
     })
@@ -59,6 +61,7 @@ function getActualMessages(self_name, from_time) {
             if (data.messages.length !== 0) {
                 last_elem = data.messages.slice(-1)[0];
                 from_time.time = last_elem.sent_date;
+                console.log(last_elem, from_time);
                 return addMessagesToView(data.messages, self_name);
             }
         }
@@ -93,11 +96,13 @@ function sendMessage(date_sent, message) {
     )
 }
 
+request_type = {
+    request: "private",
+    room: 1,
+    time: null};
 
 window.addEventListener('load', () => {
-    from_time = {time: null};
-
-    getActualMessages(self_name, from_time);    
+    getActualMessages(self_name, request_type);    
 })
 
 
@@ -120,25 +125,15 @@ document.getElementById('message-button').addEventListener('click',
     true
 )
 
-// let [date_sent, time_sent] = new Date().toISOString().split('T');
-// message = "Hello Mars, too!";
 
-// fetch("/send_messages", {
-//     method: "POST",
-//     mode: "same-origin",
-//     credentials: "same-origin",
-//     headers: {
-//         "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({ 
-//         date_sent: date_sent,
-//         time_sent: time_sent,
-//         message: message
-//     })
-// })
-// .then(
-//     (response) => response.json()
-// )
-// .then(
-//     (data) => console.log(data)
-// )
+document.getElementById('global-chat-contact').addEventListener('click',
+    () => {
+        if (request_type.request != "global") {
+            request_type.request = "global";
+            request_type.room = 0;
+            request_type.time = null;
+
+            document.getElementById('message-place').innerHTML = '';
+        }
+    }
+)

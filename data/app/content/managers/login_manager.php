@@ -20,7 +20,7 @@ class RegisterManager {
         if (isset($_POST['submit'])) {
             $this->db_manager = new UserManager();
 
-            $POST_user_data = new User(-1, $_POST['input-email'], $_POST['input-name'], $_POST['input-password']);
+            $POST_user_data = new User(-1, $_POST['input-email'], $_POST['input-name'], $_POST['input-password'], false);
             // var_dump($POST_user_data);
 
             if ($POST_user_data->getName() == ''){
@@ -68,7 +68,7 @@ class RegisterManager {
 
             $passhash = hash_hmac("sha256", $POST_user_data->getPasshash(), PASS_PEPPER);
             $passhash_prepared = password_hash($passhash, PASSWORD_ARGON2ID);
-            $this->is_valid_data = $this->db_manager->pushUser(new User(-1, $POST_user_data->getEmail(), $POST_user_data->getName(), $passhash_prepared));
+            $this->is_valid_data = $this->db_manager->pushUser(new User(-1, $POST_user_data->getEmail(), $POST_user_data->getName(), $passhash_prepared, false));
 
             if (!$this->is_valid_data) {
                 $this->errors = '
@@ -111,7 +111,7 @@ class LoginManager {
         if (isset($_POST['submit'])) {
             $this->db_manager = new UserManager();
 
-            $POST_user_data = new User(-1, $_POST['input-email'], NULL, $_POST['input-password']);
+            $POST_user_data = new User(-1, $_POST['input-email'], NULL, $_POST['input-password'], false);
 
             if ($POST_user_data->getPasshash() == ''){
                 $this->is_valid_data = false;
@@ -128,7 +128,7 @@ class LoginManager {
                 return $this->errors;
             }
 
-            $check_database = $this->db_manager->getUserByValue('email', $POST_user_data->getEmail());
+            $check_database = $this->db_manager->getUserByValueWithAdmin('email', $POST_user_data->getEmail());
 
             if (!$check_database) {
                 $this->is_valid_data = false;
@@ -145,6 +145,7 @@ class LoginManager {
                 $_SESSION['user-email'] = $check_database->getEmail();
                 $_SESSION['user-name'] = $check_database->getName();
                 $_SESSION['user-dbid'] = $check_database->getId();
+                $_SESSION['user-is_admin'] = $check_database->isAdmin();
                 Routes::redirect_to('/dashboard');
             }
             else {
