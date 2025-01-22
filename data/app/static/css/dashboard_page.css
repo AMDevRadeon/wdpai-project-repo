@@ -23,8 +23,10 @@ div#menubar-left > #logout {
     bottom: 0px;
     height: 80px;
     margin: 10px;
-    background-color: rgb(50, 75, 87);
+    background-color: rgb(65, 95, 109);
     border-radius: var(--button-border-radius);
+
+    padding: 15px;
 }
 
 div#main {
@@ -71,6 +73,76 @@ div#user-info-container {
     width: 100%;
 }
 
+/* Do IO */
+
+#menubar-left > img {
+    position: absolute;
+    width: 80px;
+    top: 0px;
+    left: 0;
+    right: 0;
+    margin: 10px;
+}
+
+div#user-info-container > p {
+    position: relative;
+    margin-left: 0.8em;
+}
+
+div#user-info-container p::before {
+    position: absolute;
+    right: calc(100% + 0.5em);
+    top: 0.25em;
+    bottom: 0.25em;
+
+    content: "";
+    background-color: var(--platinum);
+    border-radius: 100%;
+    width: 0.5em;
+    height: 0.5em;
+}
+
+div#user-info-container p:first-of-type::after {
+    position: absolute;
+    left: calc(100% + 3.8em);
+    top: 0.05em;
+    bottom: 0.05em;
+
+    content: "";
+    background-color: rgb(252, 239, 0);
+    border: 2px solid var(--platinum);
+    border-radius: 100%;
+    width: 0.9em;
+    height: 0.9em;
+}
+
+.message-other .sender-timename > div {
+    left: calc(100% + 3.8em);
+    top: 0.05em;
+    bottom: 0.05em;
+
+    content: "";
+    background-color: lawngreen;
+    border: 1.2px solid var(--delft-blue);
+    margin-right: 0.6em;
+    border-radius: 100%;
+    width: 0.9em;
+    height: 0.9em;
+}
+
+#contacts-list > .contacts-list-contact > :first-child {
+    font-size: large;
+    margin-bottom: 0.3em;
+    font-weight: 600;
+}
+
+#contacts-list > .contacts-list-contact > :not(:first-child) {
+    font-size: small;
+    font-style: italic;
+}
+
+/* !Do IO */
+
 div#main-right {
     display: flex;
     flex-direction: column;
@@ -95,6 +167,7 @@ div#message-place > :not(:first-child) {
 
 div#message-place > .message-self,
 div#message-place > .message-other {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
     padding: 12px;
 }
 
@@ -131,7 +204,7 @@ div#message-place > .message-self {
 div#message-place > .message-other {
     align-self: flex-end;
     background-color: var(--periwinkle);
-    border-radius: 15px 0px 15px 15px;
+    border-radius: 15px 15px 0px 15px;
 }
 
 div#message-place .sender-message {
@@ -157,9 +230,16 @@ div#message-form {
 div#message-form > #message-button {
     width: 80px;
     border-radius: var(--button-border-radius);
+    background-color: rgb(84, 98, 130);
+
+    padding: 5px 3px 5px 8px;
 }
 
 div#message-form > #message-input {
+    font-style: italic;
+    color: rgb(197, 197, 197);
+
+
     height: fit-content;
     max-height: 5em;
     resize: none;

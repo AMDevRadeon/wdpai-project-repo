@@ -30,7 +30,10 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
 </head>
 <body>
     <div id="menubar-left">
-        <button id="logout">Log out</button>
+        <img src="static/img/logo_wechat_transparent.png" alt="Logo" srcset="">
+        <button id="logout">
+            <img src="static/img/off_bttn.png" alt="Log off" srcset="">
+        </button>
     </div>
     <div id="main">
         <div id="main-left">
@@ -38,6 +41,19 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
                 <div id="global-chat-contact" class="contacts-list-contact contacts-list-contact-enabled">
                     <p>Global chat</p>
                     <p class="person">Everyone</p>
+                </div>
+
+                <div class="contacts-list-contact">
+                    <p>Real ones</p>
+                    <p class="person">Me,</p>
+                    <p class="person">Juliusz Słowacki,</p>
+                    <p class="person">Cyprian Kamil Norwid</p>
+                </div>
+
+                <div class="contacts-list-contact">
+                    <p>Słowacki private hati...</p>
+                    <p class="person">Me,</p>
+                    <p class="person">Cyprian Kamil Norwid</p>
                 </div>
                 <!-- <div class="contacts-list-contact">AAA</div>
                 <div class="contacts-list-contact" id="contacts-list-contact-enabled">BBB</div>
@@ -54,7 +70,9 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
             <div id="message-place"></div>
             <div id="message-form">
                 <textarea name="input-message" id="message-input"></textarea>
-                <button id="message-button">Send</button>
+                <button id="message-button">
+                    <img src="static/img/send_bttn.png" alt="Send" srcset="">
+                </button>
             </div>
         </div>
     </div>

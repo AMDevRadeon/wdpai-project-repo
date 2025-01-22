@@ -26,6 +26,9 @@ function addMessagesToView(message_array, self_name) {
 
         let timename_box = document.createElement('div');
         timename_box.appendChild(name_box);
+        /* DELETE */
+        timename_box.appendChild(document.createElement('div'));
+
         timename_box.appendChild(time_box);
         timename_box.classList.add('sender-timename');
 
