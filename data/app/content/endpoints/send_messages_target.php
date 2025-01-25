@@ -14,9 +14,20 @@ if ($content_type === "application/json") {
         if (isset($_SESSION['user-name']) && isset($_SESSION['user-email']) && isset($_SESSION['user-dbid'])) {
             if (isset($decoded["date_sent"]) && isset($decoded["message"])) {
                 $message_manager = new MessageManager();
-                $response = $message_manager->sendGlobalChatroomMessages($decoded["date_sent"], $_SESSION['user-dbid'], $decoded["message"]);
-                $encoded = json_encode($data);
-                print $encoded;
+                if ($decoded['request'] === "global") {
+                    $response = $message_manager->sendGlobalChatroomMessages($decoded["date_sent"], $_SESSION['user-dbid'], $decoded["message"]);
+                    $encoded = json_encode($data);
+                    print $encoded;
+                }
+                else if ($decoded['request'] === "private" && isset($decoded['room_id'])) {
+                    //TODO: Trza sprawdzić, czy user ma dostęp do czatu, WAŻNE
+                    $response = $message_manager->sendPrivateChatroomMessages($decoded['room_id'], $decoded["date_sent"], $_SESSION['user-dbid'], $decoded["message"]);
+                    $encoded = json_encode($data);
+                    print $encoded;
+                }
+                else {
+                    print json_encode(['status' => 0, 'messages' => "Malformed request (3)"]);
+                }
             }
             else {
                 print json_encode(['status' => 0, 'messages' => "Malformed request (2)"]);

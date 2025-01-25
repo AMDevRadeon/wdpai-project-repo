@@ -26,9 +26,6 @@ function addMessagesToView(message_array, self_name) {
 
         let timename_box = document.createElement('div');
         timename_box.appendChild(name_box);
-        /* DELETE */
-        timename_box.appendChild(document.createElement('div'));
-
         timename_box.appendChild(time_box);
         timename_box.classList.add('sender-timename');
 
@@ -41,6 +38,113 @@ function addMessagesToView(message_array, self_name) {
     });
 }
 
+function getChatrooms() {
+    fetch("/chatrooms", {
+        method: "POST",
+        mode: "same-origin",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+            reason: "get_chatrooms"
+        })
+    })
+    .then(
+        (response) => response.json()
+    )
+    .then(
+        (data) => {
+            addChatroomsToView(data.chatrooms);
+        }
+    )
+    .finally (
+        setTimeout(getChatrooms, 1000)
+    )
+}
+
+function addChatroomsToView(chatrooms)
+{
+    let keys = chatrooms.map((element) => { return element.id });
+    let uniq_keys = keys.filter((v, i, a) => { return a.indexOf(v) === i });
+    let substituted_contacts = Array();
+
+    uniq_keys.forEach(element => {
+        let chatroom = chatrooms.filter((v, i ,a) => { return v.id === element });
+
+        let contact = document.createElement('div');
+        contact.setAttribute('id', 'contact_' + element);
+        contact.setAttribute('class', 'contacts-list-contact');
+
+        let title = document.createElement('p');
+        title.appendChild(document.createTextNode('Private chat'));
+        contact.appendChild(title);
+
+        let person_holder = document.createElement('div');
+        person_holder.setAttribute('class', 'persons');
+
+        chatroom.forEach(person => {
+            if (person.name !== null) {
+                let user = document.createElement('p');
+                user.setAttribute('class', 'person');
+                user.appendChild(document.createTextNode(person.name));
+                person_holder.appendChild(user);
+            }
+        });
+
+        person_holder.style.height = `calc(${person_holder.childNodes.length}lh + ${(person_holder.childNodes.length - 1) * 0.3}em)`;
+
+        contact.appendChild(person_holder);
+
+        contact.addEventListener('click',
+            (event) => {
+                console.log(event.target);
+
+                if (request_type.room !== element) {
+                    request_type.request = "private";
+                    request_type.room = element;
+                    request_type.time = null;
+        
+                    document.getElementById('message-place').innerHTML = '';
+
+                    Array.from(document.querySelectorAll('div.contacts-list-contact')).forEach(
+                        (el) => {
+                            el.classList.remove('contacts-list-contact-enabled');
+                        }
+                    );
+
+                    contact.classList.add('contacts-list-contact-enabled');
+                }
+        });
+
+        substituted_contacts.push(contact);
+    });
+
+    let chats = Array.from(document.querySelectorAll('#contacts-list > :not(#contact_global, #contacts-add-contact)'));
+
+    substituted_contacts.forEach((contact) => {
+        let curr_contact = undefined;
+
+        if (chats !== undefined) {
+            curr_contact = chats.find(x => x.id === contact.id);
+        }
+
+        if (curr_contact === undefined) {
+            document.getElementById('contacts-list').appendChild(contact);
+        }
+        else {
+            curr_contact.getElementsByClassName('persons')[0].innerHTML = contact.getElementsByClassName('persons')[0].innerHTML;
+            curr_contact.getElementsByClassName('persons')[0].style.height = `calc(${contact.getElementsByClassName('persons')[0].childNodes.length}lh + ${(contact.getElementsByClassName('persons')[0].childNodes.length - 1) * 0.3}em)`;
+            chats.splice(chats.indexOf(curr_contact), 1);
+        }
+    });
+
+    if (chats.length > 0) {
+        chats.forEach((contact) => {
+            contact.remove();
+        })
+    }
+}
 
 function getActualMessages(self_name, from_time) {
     fetch("/fetch_messages", {
@@ -64,7 +168,7 @@ function getActualMessages(self_name, from_time) {
             if (data.messages.length !== 0) {
                 last_elem = data.messages.slice(-1)[0];
                 from_time.time = last_elem.sent_date;
-                console.log(last_elem, from_time);
+                console.log(data, from_time);
                 return addMessagesToView(data.messages, self_name);
             }
         }
@@ -78,7 +182,7 @@ function getActualMessages(self_name, from_time) {
 }
 
 
-function sendMessage(date_sent, message) {
+function sendMessage(date_sent, message, from_time) {
     fetch("/send_messages", {
         method: "POST",
         mode: "same-origin",
@@ -86,7 +190,9 @@ function sendMessage(date_sent, message) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
+            request: from_time.request,
+            room_id: from_time.room,
             date_sent: date_sent,
             message: message
         })
@@ -99,12 +205,17 @@ function sendMessage(date_sent, message) {
     )
 }
 
+
+// Very important!!!
 request_type = {
-    request: "private",
-    room: 1,
-    time: null};
+    request: "global",
+    room: 0,
+    time: null
+};
+
 
 window.addEventListener('load', () => {
+    getChatrooms();
     getActualMessages(self_name, request_type);    
 })
 
@@ -121,7 +232,7 @@ document.getElementById('message-button').addEventListener('click',
         let date_sent = new Date().toISOString();
         let message = document.getElementById('message-input').value;
 
-        sendMessage(date_sent, message);
+        sendMessage(date_sent, message, request_type);
 
         document.getElementById('message-input').value = "";
     },
@@ -129,7 +240,7 @@ document.getElementById('message-button').addEventListener('click',
 )
 
 
-document.getElementById('global-chat-contact').addEventListener('click',
+document.getElementById('contact_global').addEventListener('click',
     () => {
         if (request_type.request != "global") {
             request_type.request = "global";
@@ -137,6 +248,14 @@ document.getElementById('global-chat-contact').addEventListener('click',
             request_type.time = null;
 
             document.getElementById('message-place').innerHTML = '';
+
+            Array.from(document.querySelectorAll('div[id^=\'contact_\']')).forEach(
+                (el) => {
+                    el.classList.remove('contacts-list-contact-enabled');
+                }
+            );
+
+            document.getElementById('contact_global').classList.add('contacts-list-contact-enabled');
         }
     }
 )

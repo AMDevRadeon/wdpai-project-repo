@@ -1,0 +1,73 @@
+@import "normalize.css";
+@import "universal.css";
+
+.add-person {
+    margin-top: 0.5em;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    line-height: 1.1lh;
+
+}
+
+.add-person-send {
+    align-self: center;
+    width: 30px;
+    height: calc(1lh + 2px);
+    background-color: violet;
+    margin-left: 10px;
+    border-radius: var(--button-border-radius);
+}
+
+.add-person-input {
+    width: 100%;
+    border-radius: var(--button-border-radius);
+    padding-left: 0.2em;
+    font-style: normal;
+}
+
+.person-line {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.person {
+    width: 100%;
+}
+
+.person-deleter {
+    align-self: center;
+    width: 30px;
+    height: 1lh;
+    background-color: violet;
+    margin-left: 10px;
+    border-radius: var(--button-border-radius);
+}
+
+.title {
+    width: 100%;
+}
+
+.title-line {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.chatroom-deleter {
+    align-self: center;
+    width: 30px;
+    height: 1lh;
+    background-color: violet;
+    margin-left: 10px;
+    border-radius: var(--button-border-radius);
+}
+
+#contacts-list > #contacts-add-contact {
+    order: 1;
+}

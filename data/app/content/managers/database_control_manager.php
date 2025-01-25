@@ -71,12 +71,14 @@ class MessageManager
     const GETMESSAGESGLOBALCHAT_ALL_QUERY = <<<QUERY
         SELECT user_data.name, global_chat.sent_date, global_chat.message FROM global_chat
         LEFT OUTER JOIN user_data ON global_chat.user_id = user_data.id
+        ORDER BY global_chat.sent_date
         QUERY;
 
     const GETMESSAGESGLOBALCHAT_FROM_TIMESTAMP_QUERY = <<<QUERY
         SELECT user_data.name, global_chat.sent_date, global_chat.message FROM global_chat
         LEFT OUTER JOIN user_data ON global_chat.user_id = user_data.id
         WHERE global_chat.sent_date > :timestamp::timestamp
+        ORDER BY global_chat.sent_date
         QUERY;
     
     const SENDMESSAGEGLOBALCHAT_QUERY = <<<QUERY
@@ -88,12 +90,18 @@ class MessageManager
         SELECT user_data.name, private_chat.sent_date, private_chat.message FROM private_chat
         LEFT OUTER JOIN user_data ON private_chat.user_id = user_data.id
         WHERE private_chat.conversation_id = :conv_id
+        ORDER BY private_chat.sent_date
         QUERY;
 
     const GETMESSAGESPRIVATECHAT_FROM_TIMESTAMP_QUERY = <<<QUERY
         SELECT user_data.name, private_chat.sent_date, private_chat.message FROM private_chat
         LEFT OUTER JOIN user_data ON private_chat.user_id = user_data.id
         WHERE (private_chat.conversation_id = :conv_id AND private_chat.sent_date > :timestamp::timestamp)
+        ORDER BY private_chat.sent_date
+        QUERY;
+
+    const SENDMESSAGEPRIVATECHAT_QUERY = <<<QUERY
+        INSERT INTO private_chat(conversation_id, sent_date, user_id, message) VALUES (:convo, :date, :id, :message)
         QUERY;
     
     public function __construct()
@@ -146,6 +154,18 @@ class MessageManager
 
         return ['status' => $status, 'messages' => $query->fetchAll()];
     }
+
+    public function sendPrivateChatroomMessages($convo, $date_sent, $id, $message)
+    {
+        $query = ($this->database)()->prepare(self::SENDMESSAGEPRIVATECHAT_QUERY);
+        $query->bindParam(':convo', $convo, PDO::PARAM_INT);
+        $query->bindParam(':date', $date_sent, PDO::PARAM_STR);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->bindParam(':message', $message, PDO::PARAM_STR);
+        
+        return $query->execute();
+    }
+
 }
 
 
@@ -176,7 +196,7 @@ class ChatroomManager
         $query->bindParam(':value', $id, PDO::PARAM_INT);    
         $status = $query->execute();
 
-        return ['status' => $status, 'messages' => $query->fetchAll()];
+        return ['status' => $status, 'chatrooms' => $query->fetchAll()];
     }
 }
 
@@ -189,11 +209,42 @@ class AdminMessageManager
 
     const GETCHATROOMS_ALL_QUERY = <<<QUERY
         SELECT chat_connections.id, user_data.name FROM chat_connections
-        JOIN private_chat_connection ON chat_connections.id = private_chat_connection.conversation_id
-        JOIN user_data ON private_chat_connection.user_id = user_data.id
+        LEFT OUTER JOIN private_chat_connection ON chat_connections.id = private_chat_connection.conversation_id
+        LEFT OUTER JOIN user_data ON private_chat_connection.user_id = user_data.id
         WHERE chat_connections.is_deleted = false
         QUERY;
+
+    const ADDCHATROOM = <<<QUERY
+        INSERT INTO chat_connections(is_deleted) VALUES (false)
+        QUERY;
+
+    const REMOVECHATROOM = <<<QUERY
+        UPDATE chat_connections SET is_deleted = true
+        WHERE id = :convo
+        QUERY;
     
+    const GETCHATROOMIDS = <<<QUERY
+        SELECT id FROM chat_connections
+        QUERY;
+
+    const GETUSERLIST = <<<QUERY
+        SELECT * FROM user_data_name_view
+        QUERY;
+
+    const ADDUSERIDTOCHATROOM = <<<QUERY
+        INSERT INTO private_chat_connection(conversation_id, user_id) VALUES (:convo, :user)
+        QUERY;
+
+    const REMOVEUSERFROMCHATROOM = <<<QUERY
+        DELETE FROM private_chat_connection WHERE conversation_id = :convo AND user_id = :user
+        QUERY;
+
+    private function array_unique_flatten(array $array) {
+        $return = array();
+        array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
+        return array_unique($return);
+    }
+
     public function __construct()
     {
         $this->database = new DatabaseManager();
@@ -208,4 +259,73 @@ class AdminMessageManager
         return ['status' => $status, 'chatrooms' => $query->fetchAll()];
     }
 
+    public function addChatrooms()
+    {
+        $query = ($this->database)()->prepare(self::ADDCHATROOM);        
+
+        return $query->execute();
+    }
+
+    public function deleteChatrooms($chat_id)
+    {
+        $query = ($this->database)()->prepare(self::REMOVECHATROOM); 
+        
+        $query->bindParam(':convo', $chat_id, PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->rowCount();
+    }
+
+    public function addUserToChatroom($added_user_name, $chat_id)
+    {
+        $query = ($this->database)()->prepare(self::GETUSERLIST);
+        $query->execute();
+
+        $list_user_names = $this->array_unique_flatten($query->fetchAll());
+
+        $query = ($this->database)()->prepare(self::GETCHATROOMIDS);
+        $query->execute();
+
+        $list_chatroom_ids = $this->array_unique_flatten($query->fetchAll());
+
+        if (!in_array($added_user_name, $list_user_names)) {
+            return ['status' => false, 'message' => "no username"];
+        }
+
+        if (!in_array($chat_id, $list_chatroom_ids)) {
+            return ['status' => false, 'message' => "no chatroom exists"];
+        }
+
+        if (in_array($added_user_name, $list_user_names) && in_array($chat_id, $list_chatroom_ids)) {
+            $usermanager = new UserManager();
+            $that_user = $usermanager->getUserByValue("name", $added_user_name);
+
+            $query = ($this->database)()->prepare(self::ADDUSERIDTOCHATROOM);
+            $query->bindParam(':convo', $chat_id, PDO::PARAM_INT);   
+            $query->bindParam(':user', $that_user->getId(), PDO::PARAM_INT);
+            
+            return ['status' => $query->execute(), 'message' => "tried adding user to chat"];
+        }
+        else {
+            return ['status' => false, 'message' => "something very weird"];
+        }
+    }
+
+
+    public function deleteUserFromChatroom($removed_user_name, $chat_id)
+    {
+        $usermanager = new UserManager();
+        $that_user = $usermanager->getUserByValue("name", $removed_user_name);
+
+        if ($that_user === null) {
+            return ['status' => false, 'message' => "no user exists"];
+        }
+
+        $query = ($this->database)()->prepare(self::REMOVEUSERFROMCHATROOM);
+        $query->bindParam(':convo', $chat_id, PDO::PARAM_INT);   
+        $query->bindParam(':user', $that_user->getId(), PDO::PARAM_INT);
+        $query->execute();
+        
+        return ['status' => $query->rowCount(), 'message' => "tried deleting user from chat"];
+    }
 }

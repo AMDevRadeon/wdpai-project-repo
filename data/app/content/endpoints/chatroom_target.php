@@ -12,9 +12,29 @@ if ($content_type === "application/json") {
 
     if (is_array($decoded)) {
         if (isset($_SESSION['user-name']) && isset($_SESSION['user-email']) && isset($_SESSION['user-is_admin']) && $_SESSION['user-is_admin'] === true) {
+            $message_manager = new AdminMessageManager();
             if ($decoded['reason'] === "get_chatrooms") {
-                $message_manager = new AdminMessageManager();
                 $data = $message_manager->fetchChatrooms();
+                $encoded = json_encode($data);    
+                print $encoded;
+            }
+            else if ($decoded['reason'] === "add_chatrooms") {
+                $data = $message_manager->addChatrooms();
+                $encoded = json_encode($data);    
+                print $encoded;
+            }
+            else if ($decoded['reason'] === "del_chatrooms" && isset($decoded['chatroom'])) {
+                $data = $message_manager->deleteChatrooms($decoded['chatroom']);
+                $encoded = json_encode($data);    
+                print $encoded;
+            }
+            else if ($decoded['reason'] === "add_users" && isset($decoded['chatroom']) && isset($decoded['user'])) {
+                $data = $message_manager->addUserToChatroom($decoded['user'], $decoded['chatroom']);
+                $encoded = json_encode($data);    
+                print $encoded;
+            }
+            else if ($decoded['reason'] === "del_users" && isset($decoded['chatroom']) && isset($decoded['user'])) {
+                $data = $message_manager->deleteUserFromChatroom($decoded['user'], $decoded['chatroom']);
                 $encoded = json_encode($data);    
                 print $encoded;
             }
@@ -25,7 +45,7 @@ if ($content_type === "application/json") {
         else if (isset($_SESSION['user-name']) && isset($_SESSION['user-email']) && isset($_SESSION['user-is_admin']) && $_SESSION['user-is_admin'] === false) {
             if ($decoded['reason'] === "get_chatrooms") {
                 $message_manager = new ChatroomManager();
-                $data = $message_manager->fetchPrivateChatrooms();
+                $data = $message_manager->fetchPrivateChatrooms($_SESSION['user-dbid']);
                 $encoded = json_encode($data);    
                 print $encoded;
             }

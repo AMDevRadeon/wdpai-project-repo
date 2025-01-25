@@ -30,7 +30,8 @@ psql -v ON_ERROR_STOP=1 --username="$POSTGRES_USER" --dbname="$POSTGRES_DB" <<-E
 
     CREATE TABLE private_chat_connection (
         conversation_id integer REFERENCES chat_connections(id) NOT NULL,
-        user_id integer REFERENCES user_data(id) NOT NULL
+        user_id integer REFERENCES user_data(id) NOT NULL,
+        UNIQUE (conversation_id, user_id)
     );
 
     CREATE TABLE private_chat (

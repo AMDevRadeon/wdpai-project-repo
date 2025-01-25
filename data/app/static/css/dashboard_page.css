@@ -41,7 +41,10 @@ div#main-left {
 }
 
 div#contacts-list {
+    display: flex;
+    flex-direction: column;
     background-color: rgb(209, 218, 221);
+    height: calc(100vh - 100px);
     overflow-y: scroll;
 }
 
@@ -102,34 +105,6 @@ div#user-info-container p::before {
     height: 0.5em;
 }
 
-div#user-info-container p:first-of-type::after {
-    position: absolute;
-    left: calc(100% + 3.8em);
-    top: 0.05em;
-    bottom: 0.05em;
-
-    content: "";
-    background-color: rgb(252, 239, 0);
-    border: 2px solid var(--platinum);
-    border-radius: 100%;
-    width: 0.9em;
-    height: 0.9em;
-}
-
-.message-other .sender-timename > div {
-    left: calc(100% + 3.8em);
-    top: 0.05em;
-    bottom: 0.05em;
-
-    content: "";
-    background-color: lawngreen;
-    border: 1.2px solid var(--delft-blue);
-    margin-right: 0.6em;
-    border-radius: 100%;
-    width: 0.9em;
-    height: 0.9em;
-}
-
 #contacts-list > .contacts-list-contact > :first-child {
     font-size: large;
     margin-bottom: 0.3em;
@@ -139,6 +114,10 @@ div#user-info-container p:first-of-type::after {
 #contacts-list > .contacts-list-contact > :not(:first-child) {
     font-size: small;
     font-style: italic;
+}
+
+#contact_global {
+    order: -1;
 }
 
 /* !Do IO */
@@ -236,10 +215,6 @@ div#message-form > #message-button {
 }
 
 div#message-form > #message-input {
-    font-style: italic;
-    color: rgb(197, 197, 197);
-
-
     height: fit-content;
     max-height: 5em;
     resize: none;
@@ -255,11 +230,34 @@ div#message-form > #message-input {
     font-size: larger;
 }
 
+.persons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+
+    font-size: small;
+    max-height: calc(3lh + 1.2em);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    padding: 0em 0em 0em 0.3em;
+    box-sizing: content-box;
+}
+
+.persons > :first-child {
+    margin-top: 0.3em;
+}
+
+.persons > :last-child {
+    margin-bottom: 0.3em;
+}
+
 
 #contacts-list > .contacts-list-contact {
     border-bottom: 3px solid black;
-    padding: 20px;
+    padding: 20px 30px 20px 20px;
     cursor: pointer;
+    order: 0;
 
     position: relative;
 }

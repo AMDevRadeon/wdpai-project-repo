@@ -12,3 +12,11 @@ Juliusz Słowacki:
 Cyprian Kamil Norwid:
     teskno@mi.panie
     MojaPiosnka
+
+Witold Gombrowicz:
+    forty@door.key
+    KtoCzytałTenTromba
+
+Bolesław Prus:
+    lalka@ma.walka
+    RzeckiBestie

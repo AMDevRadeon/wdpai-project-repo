@@ -20,7 +20,12 @@ class DatabaseManager
     public function __invoke()
     {
         try {
-            return new PDO("pgsql:host=$this->server;dbname=$this->database", $this->user, $this->password);
+            $pdo = new PDO("pgsql:host=$this->server;dbname=$this->database", $this->user, $this->password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+            // DEBUGGING, breaks adding user already added to convo.
+            // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            return $pdo;
         } catch (PDOException $e) {
             die("Could not connect to the database '$this->server': " . $e->message());
         }

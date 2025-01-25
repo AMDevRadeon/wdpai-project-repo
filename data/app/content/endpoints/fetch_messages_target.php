@@ -20,7 +20,7 @@ if ($content_type === "application/json") {
                 $encoded = json_encode($data);
                 print $encoded;
             }
-            else if ($decoded['request'] === "private") {
+            else if ($decoded['request'] === "private" && isset($decoded['room_id'])) {
                 $from_when = $decoded["time"];
                 $data = $message_manager->fetchPrivateChatroomMessages($decoded['room_id'], $from_when);
                 $encoded = json_encode($data);
