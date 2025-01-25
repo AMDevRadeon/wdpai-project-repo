@@ -77,7 +77,6 @@ function addChatroomsToView(chatrooms)
         contact.setAttribute('class', 'contacts-list-contact');
 
         let title = document.createElement('p');
-        title.appendChild(document.createTextNode('Private chat'));
         contact.appendChild(title);
 
         let person_holder = document.createElement('div');
@@ -92,7 +91,9 @@ function addChatroomsToView(chatrooms)
             }
         });
 
-        person_holder.style.height = `calc(${person_holder.childNodes.length}lh + ${(person_holder.childNodes.length - 1) * 0.3}em)`;
+        person_holder.style.height = `calc(${person_holder.childNodes.length}lh + ${(person_holder.childNodes.length + 1) * 0.3}em)`;
+        title.appendChild(document.createTextNode(chatroom[0][0] + ` [${person_holder.childNodes.length}]`));
+
 
         contact.appendChild(person_holder);
 
@@ -134,7 +135,8 @@ function addChatroomsToView(chatrooms)
         }
         else {
             curr_contact.getElementsByClassName('persons')[0].innerHTML = contact.getElementsByClassName('persons')[0].innerHTML;
-            curr_contact.getElementsByClassName('persons')[0].style.height = `calc(${contact.getElementsByClassName('persons')[0].childNodes.length}lh + ${(contact.getElementsByClassName('persons')[0].childNodes.length - 1) * 0.3}em)`;
+            curr_contact.getElementsByClassName('persons')[0].style.height = `calc(${contact.getElementsByClassName('persons')[0].childNodes.length}lh + ${(contact.getElementsByClassName('persons')[0].childNodes.length + 1) * 0.3}em)`;
+            curr_contact.getElementsByClassName('title')[0].innerText = contact.getElementsByClassName('title')[0].innerText;
             chats.splice(chats.indexOf(curr_contact), 1);
         }
     });

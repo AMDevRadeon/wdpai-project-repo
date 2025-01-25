@@ -18,8 +18,8 @@ if ($content_type === "application/json") {
                 $encoded = json_encode($data);    
                 print $encoded;
             }
-            else if ($decoded['reason'] === "add_chatrooms") {
-                $data = $message_manager->addChatrooms();
+            else if ($decoded['reason'] === "add_chatrooms" && isset($decoded['name'])) {
+                $data = $message_manager->addChatrooms($decoded['name']);
                 $encoded = json_encode($data);    
                 print $encoded;
             }
@@ -39,7 +39,7 @@ if ($content_type === "application/json") {
                 print $encoded;
             }
             else {
-                print json_encode(['status' => 0, 'messages' => "Malformed request - wrong reason"]);
+                print json_encode(['status' => 0, 'messages' => "Malformed request - wrong reason", 'request' => $decoded]);
             }
         }
         else if (isset($_SESSION['user-name']) && isset($_SESSION['user-email']) && isset($_SESSION['user-is_admin']) && $_SESSION['user-is_admin'] === false) {

@@ -63,7 +63,7 @@ function getChatrooms() {
     )
 }
 
-function addChatrooms() {
+function addChatrooms(name) {
     fetch("/chatrooms", {
         method: "POST",
         mode: "same-origin",
@@ -72,7 +72,8 @@ function addChatrooms() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ 
-            reason: "add_chatrooms"
+            reason: "add_chatrooms",
+            name: name
         })
     })
     .then(
@@ -174,7 +175,6 @@ function addChatroomsToView(chatrooms)
 
         let title = document.createElement('p');
         title.setAttribute('class', 'title');
-        title.appendChild(document.createTextNode('Private chat'));
 
         title_line.appendChild(title);
         title_line.appendChild(chatroom_del);
@@ -209,6 +209,8 @@ function addChatroomsToView(chatrooms)
         });
 
         person_holder.style.height = `calc(${person_holder.childNodes.length}lh + ${(person_holder.childNodes.length + 1) * 0.3}em)`;
+        title.appendChild(document.createTextNode(chatroom[0][0] + ` [${person_holder.childNodes.length}]`));
+
 
         contact.appendChild(person_holder);
 
@@ -258,6 +260,13 @@ function addChatroomsToView(chatrooms)
             }
         )
 
+        chatroom_del.addEventListener('click',
+            (event) => {
+                event.stopPropagation();
+                deleteChatrooms(element);
+            }
+        )
+
         substituted_contacts.push(contact);
     });
 
@@ -276,6 +285,7 @@ function addChatroomsToView(chatrooms)
         else {
             curr_contact.getElementsByClassName('persons')[0].replaceChildren(...contact.getElementsByClassName('persons')[0].childNodes);
             curr_contact.getElementsByClassName('persons')[0].style.height = `calc(${curr_contact.getElementsByClassName('persons')[0].childNodes.length}lh + ${(curr_contact.getElementsByClassName('persons')[0].childNodes.length + 1) * 0.3}em)`;
+            curr_contact.getElementsByClassName('title')[0].innerText = contact.getElementsByClassName('title')[0].innerText;
             chats.splice(chats.indexOf(curr_contact), 1);
         }
     });
@@ -401,7 +411,8 @@ document.getElementById('contact_global').addEventListener('click',
     }
 )
 
-document.getElementById('contacts-add-contact').addEventListener('click', 
+document.getElementById('contacts-add-contact-send').addEventListener('click', 
     () => {
-        addChatrooms();
+        addChatrooms(document.getElementById('contacts-add-contact-input').value);
+        document.getElementById('contacts-add-contact-input').value = "";
 });

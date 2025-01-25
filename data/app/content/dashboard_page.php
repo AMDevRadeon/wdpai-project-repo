@@ -46,11 +46,18 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
             <div id="contacts-list">
                 <div id="contact_global" class="contacts-list-contact contacts-list-contact-enabled">
                     <p>Global chat</p>
-                    <p class="person">Everyone</p>
+                    <div class="persons">
+                        <p class="person">Everyone</p>
+                    </div>
                 </div>
                 <?php
                     if ($_SESSION['user-is_admin']) {
-                        echo "<div id=\"contacts-add-contact\" class=\"contacts-list-contact\">Add chat</div>";
+                        echo "<div id=\"contacts-add-contact\" class=\"contacts-list-contact\">
+                                  <div id=\"contacts-add-contact-line\">
+                                      <input id=\"contacts-add-contact-input\">
+                                      <div id=\"contacts-add-contact-send\"></div>
+                                  </div>
+                              </div>";
                     }
                 ?>
             </div>

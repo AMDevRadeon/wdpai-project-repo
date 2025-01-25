@@ -174,7 +174,7 @@ class ChatroomManager
     protected $database;
 
     const GETCHATROOMS_PRIVATE_QUERY = <<<QUERY
-    SELECT chat_connections.id, user_data.name FROM chat_connections
+    SELECT chat_connections.name, chat_connections.id, user_data.name FROM chat_connections
     JOIN (
         SELECT * FROM private_chat_connection
         WHERE private_chat_connection.conversation_id IN (
@@ -208,14 +208,14 @@ class AdminMessageManager
     protected $database;
 
     const GETCHATROOMS_ALL_QUERY = <<<QUERY
-        SELECT chat_connections.id, user_data.name FROM chat_connections
+        SELECT chat_connections.name, chat_connections.id, user_data.name FROM chat_connections
         LEFT OUTER JOIN private_chat_connection ON chat_connections.id = private_chat_connection.conversation_id
         LEFT OUTER JOIN user_data ON private_chat_connection.user_id = user_data.id
         WHERE chat_connections.is_deleted = false
         QUERY;
 
     const ADDCHATROOM = <<<QUERY
-        INSERT INTO chat_connections(is_deleted) VALUES (false)
+        INSERT INTO chat_connections(name, is_deleted) VALUES (:name, false)
         QUERY;
 
     const REMOVECHATROOM = <<<QUERY
@@ -259,9 +259,14 @@ class AdminMessageManager
         return ['status' => $status, 'chatrooms' => $query->fetchAll()];
     }
 
-    public function addChatrooms()
+    public function addChatrooms($name)
     {
-        $query = ($this->database)()->prepare(self::ADDCHATROOM);        
+        if ($name == null) {
+            $name = 'Private chat';
+        }
+
+        $query = ($this->database)()->prepare(self::ADDCHATROOM);
+        $query->bindParam(':name', $name, PDO::PARAM_STR);      
 
         return $query->execute();
     }

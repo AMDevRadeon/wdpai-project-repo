@@ -63,6 +63,8 @@ div#user-info-container {
     background-color: rgb(50, 75, 87);
     border-radius: var(--button-border-radius);
 
+    text-overflow: ellipsis;
+
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -230,10 +232,17 @@ div#message-form > #message-input {
     font-size: larger;
 }
 
+.title {
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
 .persons {
     display: flex;
     flex-direction: column;
     gap: 0.3em;
+
+    scrollbar-width: none;
 
     font-size: small;
     max-height: calc(3lh + 1.2em);
@@ -242,6 +251,10 @@ div#message-form > #message-input {
     scroll-snap-type: y mandatory;
     padding: 0em 0em 0em 0.3em;
     box-sizing: content-box;
+}
+
+.persons::-webkit-scrollbar {
+    display: none;
 }
 
 .persons > :first-child {

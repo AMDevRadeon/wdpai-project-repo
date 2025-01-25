@@ -23,6 +23,7 @@
 
 .add-person-input {
     width: 100%;
+    border: 0;
     border-radius: var(--button-border-radius);
     padding-left: 0.2em;
     font-style: normal;
@@ -48,10 +49,6 @@
     border-radius: var(--button-border-radius);
 }
 
-.title {
-    width: 100%;
-}
-
 .title-line {
     width: 100%;
     display: flex;
@@ -70,4 +67,31 @@
 
 #contacts-list > #contacts-add-contact {
     order: 1;
+}
+
+#contacts-list > #contacts-add-contact > :first-child {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    line-height: 1rlh;
+}
+
+#contacts-add-contact #contacts-add-contact-input {
+    width: 100%;
+    line-height: inherit;
+    padding-left: 0.2em;
+    border: 0;
+    border-radius: var(--button-border-radius);
+}
+
+#contacts-add-contact #contacts-add-contact-send {
+    align-self: center;
+    width: 30px;
+    height: calc(1lh + 3px);
+    background-color: violet;
+    margin-left: 10px;
+    border-radius: var(--button-border-radius);
 }
