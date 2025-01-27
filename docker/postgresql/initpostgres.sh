@@ -48,6 +48,25 @@ psql -v ON_ERROR_STOP=1 --username="$POSTGRES_USER" --dbname="$POSTGRES_DB" <<-E
     LEFT OUTER JOIN user_data ON user_admin.id = user_data.id
     WHERE user_admin.is_admin = false;
 
+    CREATE VIEW admin_data_name_view AS
+    SELECT user_data.name FROM user_admin
+    LEFT OUTER JOIN user_data ON user_admin.id = user_data.id
+    WHERE user_admin.is_admin = true;
+
+    CREATE VIEW show_active_private_chat_members AS
+    SELECT chat_connections.name, COUNT(user_data.name), string_agg(user_data.name, ', ') FROM chat_connections
+    LEFT OUTER JOIN private_chat_connection ON chat_connections.id = private_chat_connection.conversation_id
+    LEFT OUTER JOIN user_data ON private_chat_connection.user_id = user_data.id
+    WHERE chat_connections.is_deleted = false
+    GROUP BY chat_connections.id;
+
+    CREATE VIEW show_private_chats_of_users AS
+    SELECT MAX(user_data.name) AS user_name, user_id, string_agg(chat_connections.name, ', ') AS chatrooms FROM private_chat_connection
+    JOIN chat_connections ON private_chat_connection.conversation_id = chat_connections.id
+    JOIN user_data ON user_id = user_data.id
+    WHERE chat_connections.is_deleted = false
+    GROUP BY user_id;
+
     CREATE FUNCTION create_normal_user()
         RETURNS TRIGGER
     AS \$$

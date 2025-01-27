@@ -58,9 +58,9 @@ function getChatrooms() {
             addChatroomsToView(data.chatrooms);
         }
     )
-    .finally (
-        setTimeout(getChatrooms, 1000)
-    )
+    // .finally (
+    //     setTimeout(getChatrooms, 1000)
+    // )
 }
 
 function addChatroomsToView(chatrooms)
@@ -76,23 +76,40 @@ function addChatroomsToView(chatrooms)
         contact.setAttribute('id', 'contact_' + element);
         contact.setAttribute('class', 'contacts-list-contact');
 
+        let title_line = document.createElement('div');
+        title_line.setAttribute('class', 'title-line');
+
         let title = document.createElement('p');
-        contact.appendChild(title);
+        title.setAttribute('class', 'title');
+
+        let title_count = document.createElement('p');
+        title_count.setAttribute('class', 'title-count');
+
+        title_line.appendChild(title);
+        title_line.appendChild(title_count);
+        contact.appendChild(title_line);
 
         let person_holder = document.createElement('div');
         person_holder.setAttribute('class', 'persons');
 
         chatroom.forEach(person => {
             if (person.name !== null) {
+                let person_line = document.createElement('div');
+                person_line.setAttribute('class', 'person-line');
+
                 let user = document.createElement('p');
                 user.setAttribute('class', 'person');
+
                 user.appendChild(document.createTextNode(person.name));
-                person_holder.appendChild(user);
+
+                person_line.appendChild(user);
+                person_holder.appendChild(person_line);
             }
         });
 
         person_holder.style.height = `calc(${person_holder.childNodes.length}lh + ${(person_holder.childNodes.length + 1) * 0.3}em)`;
-        title.appendChild(document.createTextNode(chatroom[0][0] + ` [${person_holder.childNodes.length}]`));
+        title.appendChild(document.createTextNode(chatroom[0][0]));
+        title_count.appendChild(document.createTextNode(`[${person_holder.childNodes.length}]`));
 
 
         contact.appendChild(person_holder);
@@ -137,6 +154,7 @@ function addChatroomsToView(chatrooms)
             curr_contact.getElementsByClassName('persons')[0].innerHTML = contact.getElementsByClassName('persons')[0].innerHTML;
             curr_contact.getElementsByClassName('persons')[0].style.height = `calc(${contact.getElementsByClassName('persons')[0].childNodes.length}lh + ${(contact.getElementsByClassName('persons')[0].childNodes.length + 1) * 0.3}em)`;
             curr_contact.getElementsByClassName('title')[0].innerText = contact.getElementsByClassName('title')[0].innerText;
+            curr_contact.getElementsByClassName('title-count')[0].innerText = contact.getElementsByClassName('title-count')[0].innerText;
             chats.splice(chats.indexOf(curr_contact), 1);
         }
     });

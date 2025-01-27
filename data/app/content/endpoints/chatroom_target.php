@@ -18,6 +18,11 @@ if ($content_type === "application/json") {
                 $encoded = json_encode($data);    
                 print $encoded;
             }
+            else if ($decoded['reason'] === "get_users") {
+                $data = $message_manager->fetchUsers();
+                $encoded = json_encode($data);    
+                print $encoded;
+            }
             else if ($decoded['reason'] === "add_chatrooms" && isset($decoded['name'])) {
                 $data = $message_manager->addChatrooms($decoded['name']);
                 $encoded = json_encode($data);    

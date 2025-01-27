@@ -13,12 +13,38 @@
 }
 
 .add-person-send {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
     align-self: center;
-    width: 30px;
-    height: calc(1lh + 2px);
-    background-color: violet;
+    width: 25px;
+    height: calc(1lh+2px);
+    line-height: normal;
+    background-color: var(--platinum);
     margin-left: 10px;
     border-radius: var(--button-border-radius);
+    border: 2px solid var(--gunmetal);
+
+    transition: border-color 100ms;
+}
+
+.add-person-send > img {
+    filter: invert(16%) sepia(47%) saturate(672%) hue-rotate(151deg) brightness(89%) contrast(89%);
+    height: 1lh;
+    transform: translateX(0.2px) scale(0.8);
+    transition: filter 100ms;
+}
+
+.add-person-send:hover {
+    border-color: rgb(44, 89, 107);
+    transition: border-color 100ms;
+}
+
+.add-person-send:hover > img {
+    filter: invert(31%) sepia(13%) saturate(1775%) hue-rotate(152deg) brightness(92%) contrast(90%);
+    transition: filter 100ms;
 }
 
 .add-person-input {
@@ -27,6 +53,17 @@
     border-radius: var(--button-border-radius);
     padding-left: 0.2em;
     font-style: normal;
+    /* border: 2px solid var(--gunmetal); */
+    transition: box-shadow 100ms;
+}
+
+.add-person-input:hover {
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
+    transition: box-shadow 100ms;
+}
+
+.add-person-input:focus {
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
 }
 
 .person-line {
@@ -36,34 +73,76 @@
     align-items: center;
 }
 
-.person {
-    width: 100%;
-}
-
 .person-deleter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
     align-self: center;
-    width: 30px;
+    width: 25px;
     height: 1lh;
-    background-color: violet;
+    background-color: var(--platinum);
     margin-left: 10px;
     border-radius: var(--button-border-radius);
+    /* border: 2px solid var(--gunmetal); */
+    border: 2px solid #ee1111;
+    transition: border-color 100ms;
 }
 
-.title-line {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.person-deleter > img {
+    /* filter: invert(99%) sepia(5%) saturate(1015%) hue-rotate(200deg) brightness(117%) contrast(84%); */
+    filter: invert(16%) sepia(76%) saturate(7432%) hue-rotate(356deg) brightness(96%) contrast(97%);
+    object-fit: scale-down;
+    height: 1lh;
+    transition: filter 100ms;
+}
+
+.person-deleter:hover {
+    border-color: #ff5151;
+    transition: border-color 100ms;
+}
+
+.person-deleter:hover > img {
+    filter: invert(45%) sepia(43%) saturate(889%) hue-rotate(314deg) brightness(98%) contrast(105%);
+    transition: filter 100ms;
 }
 
 .chatroom-deleter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
     align-self: center;
-    width: 30px;
+    width: 25px;
     height: 1lh;
-    background-color: violet;
+    background-color: var(--platinum);
+    border: 2px solid var(--gunmetal);
     margin-left: 10px;
     border-radius: var(--button-border-radius);
+
+    transition: border-color 100ms;
 }
+
+.chatroom-deleter > img {
+    filter: invert(16%) sepia(47%) saturate(672%) hue-rotate(151deg) brightness(89%) contrast(89%);
+    height: 1lh;
+    transform: translateX(0.2px) scale(0.8);
+    transition: filter 100ms;
+}
+
+.chatroom-deleter:hover {
+    border-color: rgb(44, 89, 107);
+    transition: border-color 100ms;
+}
+
+.chatroom-deleter:hover > img {
+    filter: invert(31%) sepia(13%) saturate(1775%) hue-rotate(152deg) brightness(92%) contrast(90%);
+    transition: filter 100ms;
+}
+
+
 
 #contacts-list > #contacts-add-contact {
     order: 1;
@@ -85,13 +164,277 @@
     padding-left: 0.2em;
     border: 0;
     border-radius: var(--button-border-radius);
+    /* border: 2px solid var(--gunmetal); */
+}
+
+#contacts-add-contact #contacts-add-contact-input:hover {
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
+    transition: box-shadow 100ms;
+}
+
+#contacts-add-contact #contacts-add-contact-input:focus {
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
 }
 
 #contacts-add-contact #contacts-add-contact-send {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid var(--gunmetal);
+
     align-self: center;
     width: 30px;
     height: calc(1lh + 3px);
-    background-color: violet;
+    background-color: var(--gunmetal);
     margin-left: 10px;
     border-radius: var(--button-border-radius);
+
+    transition: border-color background-color 100ms;
+}
+
+#contacts-add-contact #contacts-add-contact-send > img {
+    height: 25px;
+    width: 25px;
+    filter: invert(99%) sepia(5%) saturate(1015%) hue-rotate(200deg) brightness(117%) contrast(84%);
+}
+
+#contacts-add-contact #contacts-add-contact-send:hover {
+    border-color: rgb(44, 89, 107);
+    background-color: rgb(44, 89, 107);
+    transition: border-color background-color 100ms;
+}
+
+.main-left {
+    position: relative;
+}
+
+@keyframes slide-users-list-out {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-users-list-in {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.users-list-slide-out {
+    animation-name: slide-users-list-out;
+    animation-direction: normal;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.users-list-slide-in {
+    animation-name: slide-users-list-in;
+    animation-direction: normal;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+#contacts-list {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+@keyframes slide-users-list-button-enabled {
+    from {
+        background-color: rgb(65, 95, 109);
+        border: 0px solid transparent;
+        box-shadow: 0 0 0 0 transparent;
+    }
+
+    to {
+        border: 2px solid transparent;
+        box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.2);
+        background-color: rgb(81, 117, 133);
+    }
+}
+
+@keyframes slide-users-list-button-disabled {
+    from {
+        border: 2px solid transparent;
+        box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.2);
+        background-color: rgb(81, 117, 133);
+    }
+
+    to {
+        background-color: rgb(65, 95, 109);
+        border: 0px solid transparent;
+        box-shadow: 0 0 0 0 transparent;
+    }
+}
+
+.users-list-button-enabled {
+    animation-name: slide-users-list-button-enabled;
+    animation-direction: normal;
+    animation-duration: 50ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.users-list-button-disabled {
+    animation-name: slide-users-list-button-disabled;
+    animation-direction: normal;
+    animation-duration: 50ms;
+    animation-timing-function: linear;
+}
+
+div#menubar-left > #user-display {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 100px;
+    height: 80px;
+    margin: 10px;
+    background-color: rgb(65, 95, 109);
+    border-radius: var(--button-border-radius);
+
+    padding: 15px;
+
+    transition: background-color 50ms;
+}
+
+div#menubar-left > #user-display:hover {
+    background-color: rgb(81, 117, 133);
+    transition: background-color 50ms;
+}
+
+
+div#menubar-left > #user-display > img {
+    filter: invert(99%) sepia(5%) saturate(1015%) hue-rotate(200deg) brightness(117%) contrast(84%);
+    transition: filter 50ms;
+}
+
+div#menubar-left > #user-display:hover > img {
+    filter: invert(100%) sepia(100%) saturate(13%) hue-rotate(237deg) brightness(104%) contrast(104%);
+    transition: filter 50ms;
+}
+
+div#menubar-left {
+    z-index: 20;
+}
+
+#users-list {
+    grid-row: 1;
+    grid-column: 1;
+    background-color: rgb(209, 218, 221);
+    z-index: 10;
+    overflow-y: scroll;
+    height: calc(100vh - 100px);
+
+    border-right: 5px solid var(--gunmetal);
+
+    transform: translateX(-100%);
+    width: 100%;
+}
+
+#users-list-admins,
+#users-list-users {
+    padding: 15px 10px 15px 10px;
+    border-bottom: 3px solid var(--gunmetal);
+    background-color: rgb(195, 210, 215);
+}
+
+#users-list-show-admin,
+#users-list-show-user,
+#users-list-show-admin ~ #users-list-admins-list,
+#users-list-show-user ~ #users-list-users-list {
+    display: none;
+}
+
+#users-list-show-admin ~ #users-list-admins-list,
+#users-list-show-user ~ #users-list-users-list {
+    padding: 0.5lh 0;
+    margin-top: 0.5lh;
+    padding-left: 1lh;
+}
+
+#users-list-admins > label[for^="users-list-show-admin"],
+#users-list-users > label[for^="users-list-show-user"] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+#users-list-admins > label[for^="users-list-show-admin"] > img,
+#users-list-users > label[for^="users-list-show-user"] > img {
+    height: 1lh;
+    margin-right: 10px;
+}
+
+/* #users-list-admins > label[for^="users-list-show-admin"],
+#users-list-users > label[for^="users-list-show-user"] {
+    margin-bottom: 0.5lh;
+} */
+
+#users-list-admins > label[for^="users-list-show-admin"] > p,
+#users-list-users > label[for^="users-list-show-user"] > p {
+    user-select: none;
+    font-weight: 600;
+}
+
+#users-list-show-admin:checked ~ label[for^="users-list-show-admin"] > img,
+#users-list-show-user:checked ~ label[for^="users-list-show-user"] > img {
+    user-select: none;
+    transform: rotate(90deg);
+}
+
+#users-list-show-admin:checked ~ #users-list-admins-list,
+#users-list-show-user:checked ~ #users-list-users-list {
+    background-color: rgb(195, 210, 215);
+    border-radius: var(--button-border-radius);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    gap: 0.3lh;
+}
+
+#users-list-admins-list > .users-list-elem,
+#users-list-users-list > .users-list-elem {
+    position: relative;
+    font-size: small;
+    font-style: italic;
+    line-height: normal;
+
+    overflow-x: hidden;
+    word-wrap: normal;
+    text-wrap: nowrap;
+    max-width: calc(100%);
+    text-overflow: ellipsis;
+    padding-left: 0.1em;
+
+}
+
+#users-list-admins-list > .users-list-elem::before,
+#users-list-users-list > .users-list-elem::before {
+    position: absolute;
+    right: 100%;
+    content: "-";
+    width: 1lh;
+    height: 1lh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    pointer-events: none;
+}
+
+#users-list-admins-list > .users-list-elem:hover::before,
+#users-list-users-list > .users-list-elem:hover::before {
+    transform: scale(1.5);
 }

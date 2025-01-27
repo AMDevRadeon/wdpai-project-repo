@@ -212,6 +212,17 @@ class AdminMessageManager
         LEFT OUTER JOIN private_chat_connection ON chat_connections.id = private_chat_connection.conversation_id
         LEFT OUTER JOIN user_data ON private_chat_connection.user_id = user_data.id
         WHERE chat_connections.is_deleted = false
+        ORDER BY user_data.name
+        QUERY;
+    
+    const FETCHUSERSLIST = <<<QUERY
+        SELECT * FROM user_data_name_view
+        ORDER BY name
+        QUERY;
+
+    const FETCHADMINLIST = <<<QUERY
+        SELECT * FROM admin_data_name_view
+        ORDER BY name
         QUERY;
 
     const ADDCHATROOM = <<<QUERY
@@ -257,6 +268,17 @@ class AdminMessageManager
         $status = $query->execute();
 
         return ['status' => $status, 'chatrooms' => $query->fetchAll()];
+    }
+
+    public function fetchUsers()
+    {
+        $query_admin = ($this->database)()->prepare(self::FETCHADMINLIST);        
+        $status_admin = $query_admin->execute();
+
+        $query_user = ($this->database)()->prepare(self::FETCHUSERSLIST);        
+        $status_user = $query_user->execute();
+
+        return ['status' => $status_admin && $status_user, 'admins' => $query_admin->fetchAll(), 'users' => $query_user->fetchAll()];
     }
 
     public function addChatrooms($name)

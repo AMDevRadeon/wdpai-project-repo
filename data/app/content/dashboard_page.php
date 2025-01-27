@@ -38,11 +38,40 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
 <body>
     <div id="menubar-left">
         <button id="logout">
-            <img src="static/img/off_bttn.png" alt="Log off" srcset="">
+            <img src="static/img/svg/power-off-solid.svg" alt="Log off" srcset="">
         </button>
+        <?php
+            if ($_SESSION['user-is_admin']) {
+                echo "<button id=\"user-display\">
+                          <img src=\"static/img/svg/users-solid.svg\" alt=\"Log off\" srcset=\"\">
+                      </button>";
+            }
+        ?>
     </div>
     <div id="main">
         <div id="main-left">
+            <?php
+                if ($_SESSION['user-is_admin']) {
+                    echo "<div id=\"users-list\">
+                              <div id=\"users-list-admins\">
+                                  <input id=\"users-list-show-admin\" type=\"checkbox\">
+                                  <label for =\"users-list-show-admin\">
+                                      <img src=\"static/img/svg/angle-right-solid.svg\" alt=\"tick\" srcset=\"\">
+                                      <p>Admins</p>
+                                  </label>
+                                  <div id=\"users-list-admins-list\"></div>
+                              </div>
+                              <div id=\"users-list-users\">
+                                  <input id=\"users-list-show-user\" type=\"checkbox\">
+                                      <label for =\"users-list-show-user\">
+                                      <img src=\"static/img/svg/angle-right-solid.svg\" alt=\"tick\" srcset=\"\">
+                                      <p>Users</p>
+                                  </label>
+                                  <div id=\"users-list-users-list\"></div>
+                              </div>
+                          </div>";
+                }
+            ?>
             <div id="contacts-list">
                 <div id="contact_global" class="contacts-list-contact contacts-list-contact-enabled">
                     <p>Global chat</p>
@@ -55,7 +84,9 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
                         echo "<div id=\"contacts-add-contact\" class=\"contacts-list-contact\">
                                   <div id=\"contacts-add-contact-line\">
                                       <input id=\"contacts-add-contact-input\">
-                                      <div id=\"contacts-add-contact-send\"></div>
+                                      <div id=\"contacts-add-contact-send\">
+                                          <img src=\"static/img/svg/square-plus-solid.svg\" alt=\"tick\" srcset=\"\">
+                                      </div>
                                   </div>
                               </div>";
                     }
@@ -63,8 +94,14 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
             </div>
             <div id="user-info">
                 <div id="user-info-container">
-                    <p><?php echo $_SESSION['user-name']?></p>
-                    <p><?php echo $_SESSION['user-email']?></p>
+                    <div>
+                        <div></div>
+                        <p><?php echo $_SESSION['user-name']?></p>
+                    </div>
+                    <div>
+                        <div></div>
+                        <p><?php echo $_SESSION['user-email']?></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,7 +110,7 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
             <div id="message-form">
                 <textarea name="input-message" id="message-input"></textarea>
                 <button id="message-button">
-                    <img src="static/img/send_bttn.png" alt="Send" srcset="">
+                    <img src="static/img/svg/paper-plane-solid.svg" alt="Send" srcset="">
                 </button>
             </div>
         </div>

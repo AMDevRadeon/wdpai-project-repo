@@ -38,6 +38,46 @@ function addMessagesToView(message_array, self_name) {
     });
 }
 
+function addUsersToList(list) {
+    list.admins.forEach((x) => {
+        let admin_pos = document.createElement('p');
+        admin_pos.setAttribute('class', 'users-list-elem');
+        admin_pos.appendChild(document.createTextNode(x.name));
+        document.getElementById('users-list-admins-list').appendChild(admin_pos);
+    })
+
+    list.users.forEach((x) => {
+        let user_pos = document.createElement('p');
+        user_pos.setAttribute('class', 'users-list-elem');
+        user_pos.appendChild(document.createTextNode(x.name));
+        document.getElementById('users-list-users-list').appendChild(user_pos);
+    })
+}
+
+function getUsers() {
+    fetch("/chatrooms", {
+        method: "POST",
+        mode: "same-origin",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+            reason: "get_users"
+        })
+    })
+    .then(
+        (response) => response.json()
+    )
+    .then(
+        (data) => {
+            console.log(data);
+            addUsersToList(data);
+        }
+    )
+}
+
+
 function getChatrooms() {
     fetch("/chatrooms", {
         method: "POST",
@@ -167,16 +207,26 @@ function addChatroomsToView(chatrooms)
         contact.setAttribute('id', 'contact_' + element);
         contact.setAttribute('class', 'contacts-list-contact');
 
-        let title_line = document.createElement('p');
+        let title_line = document.createElement('div');
         title_line.setAttribute('class', 'title-line');
 
         let chatroom_del = document.createElement('div');
         chatroom_del.setAttribute('class', 'chatroom-deleter');
 
+        let chatroom_del_icon = document.createElement('img');
+        chatroom_del_icon.setAttribute('src', 'static/img/svg/xmark-solid.svg');
+        chatroom_del_icon.setAttribute('alt', 'del');
+
+        chatroom_del.appendChild(chatroom_del_icon);
+
         let title = document.createElement('p');
         title.setAttribute('class', 'title');
 
+        let title_count = document.createElement('p');
+        title_count.setAttribute('class', 'title-count');
+
         title_line.appendChild(title);
+        title_line.appendChild(title_count);
         title_line.appendChild(chatroom_del);
         contact.appendChild(title_line);
 
@@ -194,6 +244,13 @@ function addChatroomsToView(chatrooms)
 
                 let user_del = document.createElement('div');
                 user_del.setAttribute('class', 'person-deleter');
+
+                let user_del_icon = document.createElement('img');
+                user_del_icon.setAttribute('src', 'static/img/svg/minus-solid.svg');
+                user_del_icon.setAttribute('alt', 'add');
+
+                user_del.appendChild(user_del_icon);
+
                 user_del.addEventListener('click',
                     (event) => {
                         event.stopPropagation();
@@ -209,7 +266,8 @@ function addChatroomsToView(chatrooms)
         });
 
         person_holder.style.height = `calc(${person_holder.childNodes.length}lh + ${(person_holder.childNodes.length + 1) * 0.3}em)`;
-        title.appendChild(document.createTextNode(chatroom[0][0] + ` [${person_holder.childNodes.length}]`));
+        title.appendChild(document.createTextNode(chatroom[0][0]));
+        title_count.appendChild(document.createTextNode(`[${person_holder.childNodes.length}]`));
 
 
         contact.appendChild(person_holder);
@@ -220,6 +278,14 @@ function addChatroomsToView(chatrooms)
         person_adder_input.setAttribute('class', 'add-person-input');
         let person_adder_send = document.createElement('div');
         person_adder_send.setAttribute('class', 'add-person-send');
+
+        let person_adder_send_icon = document.createElement('img');
+        person_adder_send_icon.setAttribute('src', 'static/img/svg/plus-solid.svg');
+        person_adder_send_icon.setAttribute('alt', 'add');
+        person_adder_send.appendChild(person_adder_send_icon);
+
+        chatroom_del.appendChild(chatroom_del_icon);
+
         person_adder.appendChild(person_adder_input);
         person_adder.appendChild(person_adder_send);
 
@@ -286,6 +352,7 @@ function addChatroomsToView(chatrooms)
             curr_contact.getElementsByClassName('persons')[0].replaceChildren(...contact.getElementsByClassName('persons')[0].childNodes);
             curr_contact.getElementsByClassName('persons')[0].style.height = `calc(${curr_contact.getElementsByClassName('persons')[0].childNodes.length}lh + ${(curr_contact.getElementsByClassName('persons')[0].childNodes.length + 1) * 0.3}em)`;
             curr_contact.getElementsByClassName('title')[0].innerText = contact.getElementsByClassName('title')[0].innerText;
+            curr_contact.getElementsByClassName('title-count')[0].innerText = contact.getElementsByClassName('title-count')[0].innerText;
             chats.splice(chats.indexOf(curr_contact), 1);
         }
     });
@@ -368,6 +435,7 @@ request_type = {
 window.addEventListener('load', () => {
     getChatrooms();
     getActualMessages(self_name, request_type);    
+    getUsers();
 })
 
 
@@ -416,3 +484,17 @@ document.getElementById('contacts-add-contact-send').addEventListener('click',
         addChatrooms(document.getElementById('contacts-add-contact-input').value);
         document.getElementById('contacts-add-contact-input').value = "";
 });
+
+document.getElementById('user-display').addEventListener('click',
+    () => {
+        console.log(document.getElementById('users-list').className);
+        if (document.getElementById('users-list').className === 'users-list-slide-in' || document.getElementById('users-list').className === '') {
+            document.getElementById('users-list').className = 'users-list-slide-out';
+            document.getElementById('user-display').className = 'users-list-button-enabled';
+        }
+        else {
+            document.getElementById('users-list').className = 'users-list-slide-in';
+            document.getElementById('user-display').className = 'users-list-button-disabled'
+        }
+    }
+)
