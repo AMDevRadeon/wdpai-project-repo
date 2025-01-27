@@ -13,6 +13,11 @@ if ($content_type === "application/json") {
     if (is_array($decoded)) {
         if (isset($_SESSION['user-name']) && isset($_SESSION['user-email']) && isset($_SESSION['user-dbid'])) {
             if (isset($decoded["date_sent"]) && isset($decoded["message"])) {
+                if (mb_strlen($decoded["message"]) > 2000) {
+                    print json_encode(['status' => 0, 'messages' => "Message too long"]);
+                    exit();
+                }
+
                 $message_manager = new MessageManager();
                 if ($decoded['request'] === "global") {
                     $response = $message_manager->sendGlobalChatroomMessages($decoded["date_sent"], $_SESSION['user-dbid'], $decoded["message"]);

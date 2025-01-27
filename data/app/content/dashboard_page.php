@@ -108,7 +108,10 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
         <div id="main-right">
             <div id="message-place"></div>
             <div id="message-form">
-                <textarea name="input-message" id="message-input"></textarea>
+                <p id="message-letter-count"></p>
+                <div id="message-input-container">
+                    <textarea name="input-message" id="message-input"></textarea>
+                </div>
                 <button id="message-button">
                     <img src="static/img/svg/paper-plane-solid.svg" alt="Send" srcset="">
                 </button>

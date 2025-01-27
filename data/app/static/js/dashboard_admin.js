@@ -454,6 +454,9 @@ document.getElementById('message-button').addEventListener('click',
         sendMessage(date_sent, message, request_type);
 
         document.getElementById('message-input').value = "";
+        resizeTextarea(document.getElementById('message-input'));
+        document.getElementById('message-letter-count').innerText = `${getTextareaLetterCount(document.getElementById('message-input'))}`;
+        document.getElementById('message-letter-count').style.display = 'none';
     },
     true
 )
@@ -495,6 +498,43 @@ document.getElementById('user-display').addEventListener('click',
         else {
             document.getElementById('users-list').className = 'users-list-slide-in';
             document.getElementById('user-display').className = 'users-list-button-disabled'
+        }
+    }
+)
+
+
+function resizeTextarea(textarea) {
+    textarea.style.height = "1.2lh";
+    textarea.style.height = `calc(${textarea.scrollHeight}px)`;
+}
+
+function getTextareaLetterCount(textarea) {
+    return textarea.value.length;
+}
+
+document.getElementById('message-input-container').addEventListener('click',
+    () => {
+        document.getElementById('message-input').focus();
+    }
+)
+
+document.getElementById('message-input').addEventListener('input',
+    () => {
+        resizeTextarea(document.getElementById('message-input'));
+        let letter_count = getTextareaLetterCount(document.getElementById('message-input'));
+        document.getElementById('message-letter-count').innerText = `${letter_count}`;
+        if (letter_count >= 250) {
+            document.getElementById('message-letter-count').style.display = 'inline-block';
+        }
+        else {
+            document.getElementById('message-letter-count').style.display = 'none';
+        }
+
+        if (letter_count > 2000) {
+            document.getElementById('message-letter-count').style.color = '#ff5151';
+        }
+        else {
+            document.getElementById('message-letter-count').style.color = 'var(--platinum)';
         }
     }
 )

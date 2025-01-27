@@ -1,9 +1,16 @@
 @import "normalize.css";
 @import "universal.css";
 
+html {
+    overflow: hidden;
+    overflow: -moz-hidden-unscrollable;
+}
+
 body {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
 
     background-color: var(--periwinkle);
 
@@ -48,7 +55,7 @@ div#menubar-left > #logout:hover > img {
 
 div#main {
     display: grid;
-    grid-template-columns: 15% auto;
+    grid-template-columns: minmax(15%, 250px) auto;
     grid-template-rows: 100vh;
 }
 
@@ -177,6 +184,8 @@ div#message-place {
     flex-direction: column-reverse;
     overflow-y: scroll;
 
+    width: 0;
+    min-width: 100%;
     height: calc(100vh - 100px);
 
     padding: 20px 10px 20px;
@@ -193,6 +202,7 @@ div#message-place > .message-self,
 div#message-place > .message-other {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
     padding: 12px;
+    max-width: min(100%, 50vw);
 }
 
 div#message-place > .message-self:hover {
@@ -221,7 +231,12 @@ div#message-place > .message-other:not(:hover) {
 
 div#message-place .sender-name {
     display: block;
-    width: fit-content;
+    line-height: normal;
+    width: calc(fit-content);
+    overflow: hidden;
+    text-wrap: nowrap;
+    word-wrap: normal;
+    text-overflow: ellipsis;
     padding-right: 0.6em;
 }
 
@@ -236,7 +251,8 @@ div#message-place .sender-timename {
 
     display: flex;
     flex-direction: row;
-    margin-bottom: 0.5em;
+    align-items: center;
+    margin-bottom: 0.2lh;
 }
 
 div#message-place .message-other .sender-timename :first-child{
@@ -258,6 +274,12 @@ div#message-place > .message-other {
 div#message-place .sender-message {
     white-space: pre-wrap;
     line-height: 1.3;
+
+    max-width: 100%;
+    word-break: normal;
+    text-wrap: wrap;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 div#message-place .message-other .sender-message {
@@ -265,13 +287,19 @@ div#message-place .message-other .sender-message {
 }
 
 div#message-form {
+    position: relative;
+
     min-height: 100px;
+    height: fit-content;
+    max-height: 50%;
     background-color: var(--delft-blue);
 
     padding: 10px;
 
-    display: flex;
+    display: inline-flex;
     flex-direction: row-reverse;
+    flex-shrink: 0;
+    align-items: center;
     gap: 10px;
 }
 
@@ -279,6 +307,9 @@ div#message-form > #message-button {
     width: 80px;
     border-radius: var(--button-border-radius);
     background-color: rgb(84, 98, 130);
+
+    flex-shrink: 0;
+    align-self: baseline;
 
     padding: 15px;
     transition: background-color 50ms;
@@ -299,20 +330,48 @@ div#message-form > #message-button:hover > img {
     transition: filter 50ms;
 }
 
-div#message-form > #message-input {
+div#message-form > #message-input-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    cursor: text;
+    /* background-color: var(--platinum); */
     height: fit-content;
-    max-height: 5em;
+    max-height: calc(8lh + 30px);
+    font-size: larger;
+    
+    line-height: normal;
+
+    border-radius: var(--button-border-radius);
+    width: 100%;
+
+}
+
+div#message-form #message-input {
+    max-height: 8lh;
+    width: 100%;
     resize: none;
+    line-height: normal;
+    height: calc(1.2lh);
+
+    margin: 10px 10px;
 
     overflow-wrap: anywhere;
     white-space: pre-wrap;
     word-wrap: break-word;
 
     align-self: center;
-    flex-grow: 1;
-    border-radius: var(--button-border-radius);
-    padding: 15px 10px;
-    font-size: larger;
+    /* flex-grow: 1; */
+    /* padding: 15px 10px; */
+}
+
+div#message-form > #message-letter-count {
+    display: none;
+    height: fit-content;
+    width: fit-content;
+    align-self: flex-end;
+    color: var(--platinum);
 }
 
 .title-line {
