@@ -20,3 +20,7 @@ Witold Gombrowicz:
 Bolesław Prus:
     lalka@ma.walka
     RzeckiBestie
+
+Sławomir Mrożek:
+    slawomir.mrozek@gmail.com
+    MangoMangoTango
