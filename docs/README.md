@@ -43,8 +43,8 @@ W ten sposób załadujesz testową bazę. Dane logowania do kont z testowej bazy
 - *data/app/content/managers* - Definicje klas potrzebnych do działania serwisu,
 - *data/app/content/endpoints* - Serwisy odpowiadające na zapytania FETCH API,
 - *docker* - Zawiera definicje i pliki konfiguracyjne kontenerów Dockerowych,
-- *documentation* - Zawiera dokumentację projektu wraz ze zdjęciami
-- *documentation/views* - Wybrane widoki aplikacji
+- *docs* - Zawiera dokumentację projektu wraz ze zdjęciami
+- *docs/views* - Wybrane widoki aplikacji
 
 ## Q&A
 Jak włączyć uprawnienia administratorskie konta?
