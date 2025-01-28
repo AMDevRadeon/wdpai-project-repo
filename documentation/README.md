@@ -20,7 +20,7 @@ Aplikacja internetowa pozwalająca na komunikację z bliskimi i znajomymi w pros
 - Sklonuj repozytorium projektu,
 - Zbuduj i uruchom kontenery za pomocą pliku docker/docker-compose.yaml:
 >**docker compose up -d --build**
-- Połącz się z aplikacją na porcie 8080.
+- Połącz się z aplikacją na porcie :8080.
 
 Otrzymasz w ten sposób aplikację z nową, czystą bazą danych. Aby zaimportować testową bazę danych:
 - Skopiuj *docker/postgresql/wdpai_db_dump.sql* do folderu *data/database*. Ta operacja może wymagać uprawnień administratorskich,
