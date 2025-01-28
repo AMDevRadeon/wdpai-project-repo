@@ -1,7 +1,7 @@
 # Wechat
 Aplikacja internetowa pozwalająca na komunikację z bliskimi i znajomymi w prosty i wygodny sposób. Użytkownicy wypowiadają się na wspólnych czatach, gdzie każdy ma szansę podzielić się swoimi myślami.
 
-![image](views/landing-page.png "Strona logowania")
+![image](views/login-page.png "Strona logowania")
 ![image](views/user-dashboard.png "Strona główna użytkownika")
 ![image](views/admin-dashboard.png "Strona główna administratora")
 ![image](views/login-page-responsive-mobile.png "Responsywne logowanie")
