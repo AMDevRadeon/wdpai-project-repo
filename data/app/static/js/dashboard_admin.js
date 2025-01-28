@@ -276,6 +276,7 @@ function addChatroomsToView(chatrooms)
         person_adder.setAttribute('class', 'add-person');
         let person_adder_input = document.createElement('input');
         person_adder_input.setAttribute('class', 'add-person-input');
+        person_adder_input.setAttribute('placeholder', 'Add user...');
         let person_adder_send = document.createElement('div');
         person_adder_send.setAttribute('class', 'add-person-send');
 

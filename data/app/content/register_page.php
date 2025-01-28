@@ -20,11 +20,11 @@ $register_handle = new RegisterManager();
         <form action="" method="post">
             <div id="email-wrapper">
                 <label for="input-email">Your email:</label>
-                <input type="email" name="input-email" id="input-email">
+                <input type="email" name="input-email" id="input-email" placeholder="email@example.com">
             </div>
             <div id="name-wrapper">
                 <label for="input-name">Your name:</label>
-                <input type="text" name="input-name" id="input-name">
+                <input type="text" name="input-name" id="input-name" placeholder="John Doe">
             </div>
             <div id="password-wrapper">
                 <label for="input-password">Your password:</label>

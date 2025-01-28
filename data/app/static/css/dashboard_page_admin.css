@@ -66,6 +66,10 @@
     box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
 }
 
+.add-person-input:focus::placeholder {
+    color: transparent;
+}
+
 .person-line {
     width: 100%;
     display: flex;
@@ -165,6 +169,14 @@
     border: 0;
     border-radius: var(--button-border-radius);
     /* border: 2px solid var(--gunmetal); */
+}
+
+#contacts-add-contact #contacts-add-contact-input::placeholder {
+    font-weight: 500;
+}
+
+#contacts-add-contact #contacts-add-contact-input:focus::placeholder {
+    color: transparent;
 }
 
 #contacts-add-contact #contacts-add-contact-input:hover {

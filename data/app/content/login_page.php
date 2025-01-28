@@ -20,7 +20,7 @@ $login_handle = new LoginManager();
         <form action="" method="post">
             <div id="email-wrapper">
                 <label for="input-email">Your email:</label>
-                <input type="email" name="input-email" id="input-email">
+                <input type="email" name="input-email" id="input-email" placeholder="email@example.com">
             </div>
             <div id="password-wrapper">
                 <label for="input-password">Your password:</label>

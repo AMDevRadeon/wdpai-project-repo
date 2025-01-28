@@ -87,7 +87,7 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
                     if ($_SESSION['user-is_admin']) {
                         echo "<div id=\"contacts-add-contact\" class=\"contacts-list-contact\">
                                   <div id=\"contacts-add-contact-line\">
-                                      <input id=\"contacts-add-contact-input\">
+                                      <input id=\"contacts-add-contact-input\" placeholder=\"Add chat...\">
                                       <div id=\"contacts-add-contact-send\">
                                           <img src=\"static/img/svg/square-plus-solid.svg\" alt=\"tick\" srcset=\"\">
                                       </div>
@@ -114,7 +114,7 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
             <div id="message-form">
                 <p id="message-letter-count"></p>
                 <div id="message-input-container">
-                    <textarea name="input-message" id="message-input"></textarea>
+                    <textarea name="input-message" id="message-input" placeholder="Share your thoughts..."></textarea>
                 </div>
                 <button id="message-button">
                     <img src="static/img/svg/paper-plane-solid.svg" alt="Send" srcset="">

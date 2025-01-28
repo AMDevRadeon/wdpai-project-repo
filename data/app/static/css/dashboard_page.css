@@ -377,6 +377,10 @@ div#message-form #message-input {
     /* padding: 15px 10px; */
 }
 
+div#message-form #message-input:focus::placeholder {
+    color: transparent;
+}
+
 div#message-form > #message-letter-count {
     display: none;
     height: fit-content;
