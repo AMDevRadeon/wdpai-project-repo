@@ -30,7 +30,6 @@ if ($content_type === "application/json") {
                     print $encoded;
                 }
                 else if ($decoded['request'] === "private" && isset($decoded['room_id'])) {
-                    //TODO: Trza sprawdzić, czy user ma dostęp do czatu, WAŻNE
                     $response = $message_manager->sendPrivateChatroomMessages($decoded['room_id'], $decoded["date_sent"], $_SESSION['user-dbid'], $decoded["message"]);
                     $encoded = json_encode($data);
                     print $encoded;

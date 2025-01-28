@@ -139,8 +139,6 @@ class MessageManager
     {
         $query = NULL;
 
-        // CHECK ID CHAT
-
         if ($from_timestamp === NULL) {
             $query = ($this->database)()->prepare(self::GETMESSAGESPRIVATECHAT_ALL_QUERY);
             $query->bindParam(':conv_id', $id_chat, PDO::PARAM_INT);        
