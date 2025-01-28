@@ -502,6 +502,20 @@ document.getElementById('user-display').addEventListener('click',
     }
 )
 
+document.getElementById('channel-display').addEventListener('click',
+    () => {
+        console.log(document.getElementById('contacts-list').className);
+        if (document.getElementById('contacts-list').className === 'users-list-slide-in' || document.getElementById('contacts-list').className === '') {
+            document.getElementById('contacts-list').className = 'users-list-slide-out';
+            document.getElementById('channel-display').className = 'users-list-button-enabled';
+        }
+        else {
+            document.getElementById('contacts-list').className = 'users-list-slide-in';
+            document.getElementById('channel-display').className = 'users-list-button-disabled'
+        }
+    }
+)
+
 
 function resizeTextarea(textarea) {
     textarea.style.height = "1.2lh";
@@ -538,3 +552,7 @@ document.getElementById('message-input').addEventListener('input',
         }
     }
 )
+
+window.matchMedia('(max-width: 800px)').addEventListener('change', () => {
+    document.getElementById('contacts-list').className = '';
+});

@@ -18,6 +18,11 @@ if ($content_type === "application/json") {
                     exit();
                 }
 
+                if (mb_strlen($decoded["message"]) == 0) {
+                    print json_encode(['status' => 0, 'messages' => "Message too short"]);
+                    exit();
+                }
+
                 $message_manager = new MessageManager();
                 if ($decoded['request'] === "global") {
                     $response = $message_manager->sendGlobalChatroomMessages($decoded["date_sent"], $_SESSION['user-dbid'], $decoded["message"]);

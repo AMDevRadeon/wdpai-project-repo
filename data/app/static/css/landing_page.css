@@ -10,6 +10,8 @@ body {
 }
 
 #top-bar {
+    position: relative;
+
     width: 100%;
     height: fit-content;
     padding: 10px 20px;
@@ -33,15 +35,16 @@ body {
 }
 
 #top-bar > a:first-child {
-    margin-right: 40px;
+    margin-right: 10px;
 }
 
 #top-bar > a {
+    font-size: large;
     font-family: "Fjord One", serif;
     font-weight: 400;
     font-style: normal;
 
-    padding: 2em;
+    padding: 1.5em;
 
     text-decoration: underline;
     border-radius: var(--button-border-radius);
@@ -62,4 +65,80 @@ body {
 #top-bar > a:not(:hover) {
     background-color: var(--platinum);
     transition: all 400ms linear 0ms;
+}
+
+#menu {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: fit-content;
+}
+
+.menu-option {
+    position: relative;
+    width: fit-content;
+    height: 100%;
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--delft-blue);
+}
+
+.menu-option .menu-option-list {
+    display: none;
+    background-color: var(--platinum);
+    padding: 5px 0px;
+}
+
+.menu-option .menu-option-list > * {
+    padding: 10px 10px;
+    user-select: none;
+}
+
+.menu-option .menu-option-list > *:hover {
+    background-color: white;
+}
+
+.menu-option .menu-option-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.menu-option .menu-option-header > p {
+    user-select: none;
+    font-weight: 600;
+}
+
+.menu-option .menu-option-header > img {
+    user-select: none;
+    height: 1lh;
+    margin-right: 10px;
+}
+
+.menu-option:hover > .menu-option-header ~ .menu-option-list,
+.menu-option > .menu-option-header ~ .menu-option-list:hover {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.menu-option:hover,
+.menu-option:has( > .menu-option-header ~ .menu-option-list:hover ) {
+    background-color: rgb(65, 79, 111);
+}
+
+.menu-option:hover > .menu-option-header > img,
+.menu-option > .menu-option-header:has( ~ .menu-option-list:hover ) > img {
+    transform: rotate(90deg);
 }

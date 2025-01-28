@@ -1,0 +1,86 @@
+@import "normalize.css";
+@import "universal.css";
+
+@media (max-width: 800px) {
+    body {
+        grid-template-columns: 100%;
+        grid-template-rows: calc(100vh - 100px) 100px;
+    }
+
+    div#main {
+        grid-row: 1;
+        grid-template-columns: 1fr 0;
+        grid-template-rows: 1fr;
+    }
+
+    #menubar-left {
+        grid-row: 2;
+    }
+
+    div#menubar-left > #logout {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        width: 80px;
+        margin: 10px;
+    }
+
+    /* ADMIN */
+    div#menubar-left > #user-display {
+        position: absolute;
+        left: 200px !important;
+        top: 0px;
+        bottom: 0px;
+        width: 80px;
+        margin: 10px;
+    }
+
+    div#main-left {
+        grid-template-rows: calc(100vh - 200px) 100px;
+        grid-template-columns: calc(100% + 5px);
+        grid-row: 1;
+        grid-column: 1;
+    }
+
+    div#main-right {
+        grid-row: 1;
+        grid-column: 1;
+
+    }
+
+    div#user-info {
+        display: none;
+    }
+
+    div#users-list {
+        z-index: 20;
+    }
+
+    div#contacts-list {
+        transform: translateX(-100%);
+        z-index: 10;
+    }
+    
+    div#message-place {
+        height: calc(100vh - 200px);
+    }
+
+    div#message-place > .message-self,
+    div#message-place > .message-other {
+        max-width: min(100%, 90vw);
+    }
+
+    div#main-right {
+        max-height: calc(100vh - 100px);
+    }
+
+    div#menubar-left > #channel-display {
+        display: block;
+        left: 100px;
+        top: 0px;
+        bottom: 0px;
+        width: 80px;
+        margin: 10px;
+    }
+}

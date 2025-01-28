@@ -16,6 +16,7 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/dashboard_page.css">
+    <link rel="stylesheet" href="static/css/dashboard_page_media_query.css">
     <?php
         if ($_SESSION['user-is_admin']) {
             echo "<link rel=\"stylesheet\" href=\"static/css/dashboard_page_admin.css\">";
@@ -39,6 +40,9 @@ if (!isset($_SESSION['user-name']) || !isset($_SESSION['user-email'])) {
     <div id="menubar-left">
         <button id="logout">
             <img src="static/img/svg/power-off-solid.svg" alt="Log off" srcset="">
+        </button>
+        <button id="channel-display">
+            <img src="static/img/svg/comments-solid.svg" alt="Log off" srcset="">
         </button>
         <?php
             if ($_SESSION['user-is_admin']) {

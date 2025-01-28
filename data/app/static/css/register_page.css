@@ -13,10 +13,22 @@ body {
     align-items: center;
 }
 
+#form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: calc(var(--button-border-radius) * 2);
+    background-color: var(--pomp-and-power);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 form {
     font-family: "Fjord One", serif;
     font-weight: 400;
     font-style: normal;
+
+    width: 400px;
 
     position: relative;
 
@@ -29,20 +41,64 @@ form {
     background-color: var(--pomp-and-power);
 }
 
-form > input {
+#form-wrapper > img {
     width: 300px;
+    margin: 10px 0px;
+    padding: 10px;
+    transition: transform 200ms;
+}
+
+#form-wrapper > img:hover {
+    transform: scale(1.02);
+    transition: transform 200ms;
+}
+
+form #email-wrapper,
+form #password-wrapper,
+form #name-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-bottom: 1em;
+
+    width: 100%;
+    background-color: rgb(142, 123, 166);
+    border-radius: calc(var(--button-border-radius) * 2);
+}
+
+form #email-wrapper > label,
+form #password-wrapper > label,
+form #name-wrapper > label {
+    transform: translateX(0px);
+    transition: transform 200ms;
+}
+
+form #email-wrapper:hover > label,
+form #password-wrapper:hover > label,
+form #name-wrapper:hover > label {
+    transform: translateX(3px);
+    transition: transform 200ms;
+}
+
+form #email-wrapper > *,
+form #password-wrapper > *,
+form #name-wrapper > * {
+    width: 100%;
+}
+
+form input {
     padding: 0.3em;
 
     border-radius: var(--button-border-radius);
     background-color: var(--platinum);
 }
 
-form > label {
-    margin-bottom: 1em;
+form label {
+    padding-bottom: 1em;
     align-self: baseline;
 }
 
-form > input:not(:last-of-type) {
+form input:not(:last-of-type) {
     margin-bottom: 2em;
 }
 
@@ -67,18 +123,18 @@ form > a {
 }
 
 
-form > input:focus {
+form input:focus {
     background-color: white;
     box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
 }
 
-form > input:hover {
+form input:hover {
     background-color: white;
     box-shadow: rgba(255, 255, 255, 0.16) 0px 3px 6px, rgba(255, 255, 255, 0.23) 0px 3px 6px;
     transition: box-shadow 400ms linear 0ms;
 }
 
-form > input:not(:hover) {
+form input:not(:hover) {
     transition: box-shadow 400ms linear 0ms;
 }
 
@@ -96,4 +152,27 @@ div#errors > .error_mesg {
     padding: 20px;
     background-color: var(--platinum);
     border-radius: calc(var(--button-border-radius) * 2);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+@media (max-height: 800px) {
+    #form-wrapper {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 500px) or ((max-height: 800px) and (max-width: 650px)) {
+    #form-wrapper {
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    div#errors {
+        position: fixed;
+
+        top: 10px;
+        bottom: auto;
+    }
 }

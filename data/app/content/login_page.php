@@ -15,18 +15,25 @@ $login_handle = new LoginManager();
     <title>WeChat - Login</title>
 </head>
 <body>
-    <form action="" method="post">
-        <label for="input-email">Your email:</label>
-        <input type="email" name="input-email" id="input-email">
-        <label for="input-password">Your password:</label>
-        <input type="password" name="input-password" id="input-password">
-        <input type="submit" name="submit" value="Login">
-        <a href="register">Haven't got yourself an account? Register here</a>
-        <div id=errors>
-            <?php
-                print($login_handle());
-            ?>
-        </div>
-    </form>
+    <div id="form-wrapper">
+        <img src="static/img/png/logo_wechat_transparent.png" alt="Logo">
+        <form action="" method="post">
+            <div id="email-wrapper">
+                <label for="input-email">Your email:</label>
+                <input type="email" name="input-email" id="input-email">
+            </div>
+            <div id="password-wrapper">
+                <label for="input-password">Your password:</label>
+                <input type="password" name="input-password" id="input-password">
+            </div>
+            <input type="submit" name="submit" value="Login">
+            <a href="register">Haven't got yourself an account? Register here</a>
+            <div id=errors>
+                <?php
+                    print($login_handle());
+                ?>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

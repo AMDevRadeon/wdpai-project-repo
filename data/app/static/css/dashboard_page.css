@@ -2,15 +2,26 @@
 @import "universal.css";
 
 html {
+    width: 0;
+    min-width: 100vw;
+
+    height: 0;
+    min-height: 100vh;
+
     overflow: hidden;
     overflow: -moz-hidden-unscrollable;
 }
 
 body {
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
     overflow: hidden;
 
+    width: 0;
+    min-width: 100vw;
+
+    height: 0;
+    min-height: 100vh;
 
     background-color: var(--periwinkle);
 
@@ -476,3 +487,110 @@ div#message-form > #message-letter-count {
 }
 
 
+div#menubar-left > #channel-display {
+    display: none;
+    position: absolute;
+
+    background-color: rgb(65, 95, 109);
+    border-radius: var(--button-border-radius);
+
+    padding: 15px;
+
+    transition: background-color 50ms;
+}
+
+div#menubar-left > #channel-display:hover {
+    background-color: rgb(81, 117, 133);
+    transition: background-color 50ms;
+}
+
+div#menubar-left > #channel-display > img {
+    filter: invert(99%) sepia(5%) saturate(1015%) hue-rotate(200deg) brightness(117%) contrast(84%);
+    transition: filter 50ms;
+}
+
+div#menubar-left > #channel-display:hover > img {
+    filter: invert(100%) sepia(100%) saturate(13%) hue-rotate(237deg) brightness(104%) contrast(104%);
+    transition: filter 50ms;
+}
+
+
+@keyframes slide-users-list-out {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-users-list-in {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.users-list-slide-out {
+    animation-name: slide-users-list-out;
+    animation-direction: normal;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.users-list-slide-in {
+    animation-name: slide-users-list-in;
+    animation-direction: normal;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes slide-users-list-button-enabled {
+    from {
+        background-color: rgb(65, 95, 109);
+        border: 0px solid transparent;
+        box-shadow: 0 0 0 0 transparent;
+    }
+
+    to {
+        border: 2px solid transparent;
+        box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.2);
+        background-color: rgb(81, 117, 133);
+    }
+}
+
+@keyframes slide-users-list-button-disabled {
+    from {
+        border: 2px solid transparent;
+        box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.2);
+        background-color: rgb(81, 117, 133);
+    }
+
+    to {
+        background-color: rgb(65, 95, 109);
+        border: 0px solid transparent;
+        box-shadow: 0 0 0 0 transparent;
+    }
+}
+
+.users-list-button-enabled {
+    animation-name: slide-users-list-button-enabled;
+    animation-direction: normal;
+    animation-duration: 50ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.users-list-button-disabled {
+    animation-name: slide-users-list-button-disabled;
+    animation-direction: normal;
+    animation-duration: 50ms;
+    animation-timing-function: linear;
+}
